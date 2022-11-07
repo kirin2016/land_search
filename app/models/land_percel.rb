@@ -22,7 +22,7 @@ class LandPercel < ApplicationRecord
   attachment :image
 
   enum shape: { regular: 0, flag_pole: 1, irregular: 2, long_narrow: 3 }
-  enum connecting_road_situation: { one_frontage: 0, corner_lot: 1, two_frontages: 2, three_four_frontages: 3, others: 4 }
+  enum connecting_road_situation: { one_frontage: 0, corner_lot: 1, two_frontages: 2, three_four_frontages: 3 }
   enum main_road_direction: { north: 0, south: 1, east: 2, west: 3 }
   enum sale_status: { on_sale: 0, sales_pending: 1, contracted: 2 }
 

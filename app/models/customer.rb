@@ -24,18 +24,18 @@ class Customer < ApplicationRecord
 
   enum house_type: { single_family_home: 0, two_family_home: 1, multi_family_home: 2 }
   enum kitchen_type: { wall: 0, peninsula: 1, island: 2 }
-  enum bathroom_area: { one_tsubo: 0, one_quarter_tsubo: 1, others: 2 }
-  enum japanese_room: { need: 0, if_have_room: 1, needless: 2 }
-  enum storage: { need: 0, if_have_room: 1, needless: 2 }
-  enum den: { need: 0, if_have_room: 1, needless: 2 }
-  enum den_type: { open_type: 0, closed_type: 1, others: 2 }
-  enum wic: { need: 0, if_have_room: 1, needless: 2 }
-  enum family_closet: { need: 0, if_have_room: 1, needless: 2 }
-  enum sic: { need: 0, if_have_room: 1, needless: 2 }
-  enum pantry: { need: 0, if_have_room: 1, needless: 2 }
-  enum loft: { need: 0, if_have_room: 1, needless: 2 }
-  enum void: { need: 0, if_have_room: 1, needless: 2 }
-  enum laundry_room: { need: 0, if_have_room: 1, needless: 2 }
-  enum garden: { need: 0, if_have_room: 1, needless: 2 }
+  enum bathroom_area: { one_tsubo: 0, one_quarter_tsubo: 1, others: 2 }, _prefix: true
+  enum japanese_room: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true
+  enum storage: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true
+  enum den: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true
+  enum den_type: { open_type: 0, closed_type: 1, others: 2 }, _prefix: true
+  enum wic: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true
+  enum family_closet: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true
+  enum sic: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true
+  enum pantry: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true
+  enum loft: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true
+  enum void: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true
+  enum laundry_room: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true
+  enum garden: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true
 
 end

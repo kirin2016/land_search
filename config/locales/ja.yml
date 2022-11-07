@@ -1,0 +1,192 @@
+# ja.yml
+ja: # 日本語の設定を行う
+  enums: # enumの設定を行う
+    customer: # モデル名
+      house_type: # カラム名
+        single_family_home: '単世帯住宅'
+        single_family_home: '二世帯住宅'
+        single_family_home: '多世帯住宅'
+
+      kitchen_type:
+        wall: '壁付'
+        peninsula: 'ペニンシュラ（対面）'
+        island: 'アイランド'
+
+      bathroom_area:
+        one_tsubo: '1坪'
+        one_quarter_tsubo: '1.25坪'
+        others: 'その他'
+
+      japanese_room:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      storage:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      den:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      den_type:
+        open_type: 'オープン'
+        closed_type: 'クローズド（個室）'
+        others: 'その他'
+
+      wic:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      family_closet:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      sic:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      pantry:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      loft:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      void:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      laundry_room:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      garden:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+
+    land_percel: # モデル名
+      shape: # カラム名
+        regular: '整形地'
+        flag_pole: '旗竿地'
+        irregular: '不整形地'
+        long_narrow: '奥行長大地（うなぎの寝床）'
+
+      connecting_road_situation:
+        one_frontage: '中間画地（一方路地）'
+        corner_lot: '角地'
+        two_frontages: '二方路地'
+        three_four_frontages: '三方・四方路地'
+
+      main_road_direction:
+        north: '北'
+        south: '南'
+        east: '東'
+        west: '西'
+
+      sale_status:
+        on_sale: '販売中'
+        sales_pending: '商談中'
+        contracted: '契約済'
+
+
+    plan_order: # モデル名
+      order_status: # カラム名
+        confirming: '内容確認中'
+        planning: 'プラン作成中'
+        completion: '完了'
+
+      house_type_order:
+        single_family_home: '単世帯住宅'
+        single_family_home: '二世帯住宅'
+        single_family_home: '多世帯住宅'
+
+      kitchen_type_order:
+        wall: '壁付'
+        peninsula: 'ペニンシュラ（対面）'
+        island: 'アイランド'
+
+      bathroom_area_order:
+        one_tsubo: '1坪'
+        one_quarter_tsubo: '1.25坪'
+        others: 'その他'
+
+      japanese_room_order:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      storage_order:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      den_order:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      den_type_order:
+        open_type: 'オープン'
+        closed_type: 'クローズド（個室）'
+        others: 'その他'
+
+      wic_order:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      family_closet_order:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      sic_order:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      pantry_order:
+        need: '必須'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      loft_order:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      void_order:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      laundry_room_order:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+      garden_order:
+        want: '必要'
+        if_have_room: '可能なら'
+        needless: '無くて良い'
+
+
+    plan_order: # モデル名
+      transportation: # カラム名
+        walking: '徒歩'
+        bus: 'バス'
+        car: '車'

@@ -44,6 +44,7 @@ class DeviseCreateCustomers < ActiveRecord::Migration[6.1]
       t.string :telephone_number, null: false
       t.boolean :is_deleted, null: false, default: false
       t.string :sale_staff
+      t.string :sale_staff_telephone
       t.integer :tenant_number
       t.string :tenant_member
       t.integer :house_type, limit: 1

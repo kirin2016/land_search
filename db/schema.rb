@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2022_10_30_192342) do
     t.string "telephone_number", null: false
     t.boolean "is_deleted", default: false, null: false
     t.string "sale_staff"
+    t.string "sale_staff_telephone"
     t.integer "tenant_number"
     t.string "tenant_member"
     t.integer "house_type", limit: 1
@@ -167,6 +168,9 @@ ActiveRecord::Schema.define(version: 2022_10_30_192342) do
     t.integer "car_time"
     t.integer "building_coverage_ratio", null: false
     t.integer "floor_area_ratio", null: false
+    t.string "real_estate_name"
+    t.string "real_estate_staff"
+    t.string "real_estate_telephone"
     t.string "introduction"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
