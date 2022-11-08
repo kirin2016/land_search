@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  devise_for :customers, controllers: {
+    sessions: 'publics/devises/sessions',
+    passwords: 'publics/devises/passwords',
+    registrations: 'publics/devises/registrations'
+  }
+
   scope module: :publics do
     root to: 'homes#top'
     resources :bookmarks, only: [:index, :create, :destroy]
@@ -13,12 +19,10 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :customers, controllers: {
-    sessions: 'publics/devises/sessions',
-    passwords: 'publics/devises/passwords',
-    registrations: 'publics/devises/registrations'
-  }
 
+  devise_for :admins, controllers: {
+    sessions: 'admins/devises/sessions',
+  }
 
   namespace :admins do
     get "/" => "properties#index"
@@ -32,8 +36,5 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :admins, controllers: {
-    sessions: 'admins/devises/sessions',
-  }
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

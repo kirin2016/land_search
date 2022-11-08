@@ -1,2 +1,2 @@
-module Admins::PlanOrderHelper
+module Admins::PlanOrdersHelper
 end

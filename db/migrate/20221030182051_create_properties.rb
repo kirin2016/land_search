@@ -14,9 +14,9 @@ class CreateProperties < ActiveRecord::Migration[6.1]
       t.integer :car_time
       t.integer :building_coverage_ratio, null: false
       t.integer :floor_area_ratio, null: false
-      t.string :real_estate_name
+      t.string :real_estate_name, null: false
       t.string :real_estate_staff
-      t.string :real_estate_telephone
+      t.string :real_estate_telephone, null: false
       t.string :introduction
 
       t.timestamps null: false

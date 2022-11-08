@@ -1,2 +1,41 @@
-<h1>Publics::Homes#top</h1>
-<p>Find me in app/views/publics/homes/top.html.erb</p>
+<div class="my-5">
+  <div class="d-flex justify-content-center back-image">
+    <div class="border back-color px-4">
+      <br>
+        ようこそ、切山ハウスへ！<br>
+        このサイトは、切山ハウスが取り扱う厳選された土地情報をご紹介しております。<br>
+        ここでしか出ていない未公開土地情報も多数ご用意！<br>
+      <br>
+        細かい検索条件でご希望の土地をスピーディに効率よく検索！<br>
+        気になる土地に対して、どのような間取りの家ができるか<br>
+        簡単気軽にプラン作成依頼もできます。<br>
+      <br>
+        会員でない方も物件情報一覧を閲覧はできますが、<br>
+        詳細情報の閲覧やプラン作成依頼は会員登録が必要となりますので、<br>
+        是非ご登録くださいませ。<br>
+      <br>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-2"></div>
+  <h3 class="col-lg-10">新着商品</h3>
+</div>
+
+<div class="row">
+  <div class="col-lg-2"></div>
+  <% @properties.each do |property| %>
+    <div class="col-lg-3 px-0 mr-3 image_size_small">
+      <%= link_to property_path(property.id) do %>
+        <%= attachment_image_tag property, :image %><br>
+        <%= property.name %><br>
+        <%= property.full_address_public %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<div class="d-flex justify-content-end">
+  <%= link_to "全ての物件情報を見る >", properties_path %>
+</div>
