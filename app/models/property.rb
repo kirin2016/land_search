@@ -16,12 +16,13 @@ class Property < ApplicationRecord
   has_many :images, dependent: :destroy
 
 
-  def full_address_public
-    ['〒', postal_code, '　', prefecture_name, address_city, address_street, address_town].join('')
+
+  def full_address_publics
+    ['〒', postal_code, '　', prefecture_name, address_city, address_town].join('')
   end
 
-  def full_address_admin
-    ['〒', postal_code, '　', prefecture_name, address_city, address_street, address_town, address_street].join('')
+  def full_address_admins
+    ['〒', postal_code, '　', prefecture_name, address_city, address_town, address_street].join('')
   end
 
   enum transportation: { walking: 0, bus: 1, car: 2 }

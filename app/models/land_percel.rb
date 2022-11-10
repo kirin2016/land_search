@@ -18,7 +18,6 @@ class LandPercel < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :plan_orders, dependent: :destroy
 
-
   attachment :image
 
   enum shape: { regular: 0, flag_pole: 1, irregular: 2, long_narrow: 3 }

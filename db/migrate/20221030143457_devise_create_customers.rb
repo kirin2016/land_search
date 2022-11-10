@@ -73,7 +73,7 @@ class DeviseCreateCustomers < ActiveRecord::Migration[6.1]
       t.integer :parking_number
       t.string :car_model
       t.integer :bicycle_parking_number
-      t.string :request_details
+      t.text :request_details
 
       t.timestamps null: false
     end

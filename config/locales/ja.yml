@@ -185,7 +185,7 @@ ja: # 日本語の設定を行う
         needless: '無くて良い'
 
 
-    plan_order: # モデル名
+    property: # モデル名
       transportation: # カラム名
         walking: '徒歩'
         bus: 'バス'

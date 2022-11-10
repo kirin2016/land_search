@@ -3,7 +3,7 @@ class CreatePlanOrders < ActiveRecord::Migration[6.1]
     create_table :plan_orders do |t|
       t.integer :customer_id, null: false
       t.integer :land_percel_id, null: false
-      t.string :remarks
+      t.text :remarks
       t.datetime :contact_datetime_1, null: false
       t.datetime :contact_datetime_2, null: false
       t.datetime :contact_datetime_3, null: false
@@ -36,7 +36,7 @@ class CreatePlanOrders < ActiveRecord::Migration[6.1]
       t.integer :parking_number_order
       t.string :car_model_order
       t.integer :bicycle_parking_number_order
-      t.string :request_details_order
+      t.text :request_details_order
 
       t.timestamps null: false
     end

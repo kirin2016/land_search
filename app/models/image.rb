@@ -4,8 +4,6 @@ class Image < ApplicationRecord
   validates :image, presence: true
 
   belongs_to :property
-
-
   attachment :image
 
 end

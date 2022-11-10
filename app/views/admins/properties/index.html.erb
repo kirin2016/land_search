@@ -1,2 +1,83 @@
-<h1>Admin::Properties#index</h1>
-<p>Find me in app/views/admin/properties/index.html.erb</p>
+<div class="d-flex justify-content-between align-items-center">
+
+  <h4>物件一覧</h4>
+  <%= link_to '＋', new_admins_property_path, class:"btn btn-lg rounded-circle p-0" %>
+
+</div>
+
+  <table class="table table-hover table-inverse my-4">
+    <thead>
+      <tr>
+        <th>物件名</th>
+        <th>住所</th>
+        <th>最寄り駅・距離</th>
+        <th>面積</th>
+        <th>価格（坪単価）</th>
+        <th>道路幅</th>
+        <th>間口</th>
+        <th>建ぺい率/容積率</th>
+        <th>販売ステータス</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @properties.each do |property| %>
+        <tr>
+          <td><%= link_to property.name, admins_property_path(property.id) %></td>
+          <td><%= property.full_address_admins %></td>
+
+          <td>
+            <%= property.nearest_railroad %>「<%= property.nearest_station %>」
+            <% if property.transportation == 0 %>
+              徒歩<%= property.walking_time %>分
+            <% elsif property.transportation == 1 %>
+              バス<%= property.bus_time %>分　停歩<%= property.walking_time %>分
+            <% else %>
+              車<%= property.car_time %>分
+            <% end %>
+          </td>
+
+          <% if property.land_percels.where(sale_status:[0,1]).count == 0 %>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          <% else %>
+            <% if property.land_percels.where(sale_status:[0,1]).minimum(area) == property.land_percels.where(sale_status:[0,1]).maximum(area) %>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(area) %>㎡</td>
+            <% else %>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(area) %>～<%= property.land_percels.where(sale_status:[0,1]).maximum(area) %>㎡</td>
+            <% end %>
+
+            <% if property.land_percels.where(sale_status:[0,1]).minimum(price) == property.land_percels.where(sale_status:[0,1]).maximum(price) %>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(price) %>万円（坪<%= property.land_percels.where(sale_status:[0,1]).minimum(price_tsubo) %>万円）</td>
+            <% else %>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(price) %>万円（坪<%= property.land_percels.where(sale_status:[0,1]).minimum(price_tsubo) %>万円）～<%= property.land_percels.where(sale_status:[0,1]).maximum(price) %>万円（坪<%= property.land_percels.where(sale_status:[0,1]).maximum(price_tsubo) %>万円）</td>
+            <% end %>
+
+            <% if property.land_percels.where(sale_status:[0,1]).minimum(main_road_width) == property.land_percels.where(sale_status:[0,1]).maximum(main_road_width) %>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(main_road_width) %>m</td>
+            <% else %>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(main_road_width) %>～<%= property.land_percels.where(sale_status:[0,1]).maximum(main_road_width) %>m</td>
+            <% end %>
+
+            <% if property.land_percels.where(sale_status:[0,1]).minimum(frontage) == property.land_percels.where(sale_status:[0,1]).maximum(frontage) %>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(frontage) %>m</td>
+            <% else %>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(frontage) %>～<%= property.land_percels.where(sale_status:[0,1]).maximum(frontage) %>m</td>
+            <% end %>
+          <% end %>
+
+          <td><%= property.building_coverage_ratio %>%/<%= property.floor_area_ratio %>%</td>
+
+          <% if property.land_percels.where(sale_status:0).count >= 1 %>
+            <td class="text-success font-weight-bold">販売区画あり</td>
+		      <% elsif property.land_percels.where(sale_status:1).count >= 1 %>
+		        <td class="text-warning font-weight-bold">商談中</td>
+		      <% else %>
+		        <td class="text-muted font-weight-bold">全区画契約済</td>
+		      <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

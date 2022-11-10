@@ -23,51 +23,51 @@
 
             <% if customer_signed_in? %>
 
-            <li class="nav-item col-lg-3 text-center">
-              <%= link_to "トップページ", root_path, class: 'nav-link text-dark border rounded' %>
-            </li>
+              <li class="nav-item col-lg-3 text-center">
+                <%= link_to "トップページ", root_path, class: 'nav-link text-dark border rounded' %>
+              </li>
 
-            <li class="nav-item col-lg-3 text-center">
-              <%= link_to "物件一覧", properties_path, class: 'nav-link text-dark border rounded' %>
-            </li>
+              <li class="nav-item col-lg-3 text-center">
+                <%= link_to "物件一覧", properties_path, class: 'nav-link text-dark border rounded' %>
+              </li>
 
-            <li class="nav-item col-lg-3 text-center">
-              <%= link_to "マイページ", customer_path(current_customer.id), class: 'nav-link text-dark border rounded' %>
-            </li>
+              <li class="nav-item col-lg-3 text-center">
+                <%= link_to "マイページ", customer_path(current_customer.id), class: 'nav-link text-dark border rounded' %>
+              </li>
 
-            <li class="nav-item col-lg-3 text-center">
-              <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: 'nav-link text-dark border rounded' %>
-            </li>
+              <li class="nav-item col-lg-3 text-center">
+                <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: 'nav-link text-dark border rounded' %>
+              </li>
 
             <% elsif admin_signed_in? %>
 
-            <li class="nav-item col-lg-3 text-center">
-              <%= link_to "物件一覧", admins_path, class: 'nav-link text-dark border rounded' %>
-            </li>
-            <li class="nav-item col-lg-3 text-center">
-              <%= link_to "プラン依頼一覧", admins_plan_orders_path, class: 'nav-link text-dark border rounded' %>
-            </li>
-            <li class="nav-item col-lg-3 text-center">
-              <%= link_to "会員一覧", admins_customers_path, class: 'nav-link text-dark border rounded' %>
-            </li>
-            <li class="nav-item col-lg-3 text-center">
-              <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-dark border rounded' %>
-            </li>
+              <li class="nav-item col-lg-3 text-center">
+                <%= link_to "物件一覧", admins_path, class: 'nav-link text-dark border rounded' %>
+              </li>
+              <li class="nav-item col-lg-3 text-center">
+                <%= link_to "プラン依頼一覧", admins_plan_orders_path, class: 'nav-link text-dark border rounded' %>
+              </li>
+              <li class="nav-item col-lg-3 text-center">
+                <%= link_to "会員一覧", admins_customers_path, class: 'nav-link text-dark border rounded' %>
+              </li>
+              <li class="nav-item col-lg-3 text-center">
+                <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-dark border rounded' %>
+              </li>
 
             <% else %>
 
-            <li class="nav-item col-lg-3 text-center">
-              <%= link_to "トップページ", root_path, class: 'nav-link text-dark border rounded' %>
-            </li>
-            <li class="nav-item col-lg-3 text-center">
-              <%= link_to "物件一覧", properties_path, class: 'nav-link text-dark border rounded' %>
-            </li>
-            <li class="nav-item col-lg-3 text-center">
-              <%= link_to "新規登録", new_customer_registration_path, class: 'nav-link text-dark border rounded' %>
-            </li>
-            <li class="nav-item col-lg-3 text-center">
-              <%= link_to "ログイン", new_customer_session_path, class: 'nav-link text-dark border rounded' %>
-            </li>
+              <li class="nav-item col-lg-3 text-center">
+                <%= link_to "トップページ", root_path, class: 'nav-link text-dark border rounded' %>
+              </li>
+              <li class="nav-item col-lg-3 text-center">
+                <%= link_to "物件一覧", properties_path, class: 'nav-link text-dark border rounded' %>
+              </li>
+              <li class="nav-item col-lg-3 text-center">
+                <%= link_to "新規登録", new_customer_registration_path, class: 'nav-link text-dark border rounded' %>
+              </li>
+              <li class="nav-item col-lg-3 text-center">
+                <%= link_to "ログイン", new_customer_session_path, class: 'nav-link text-dark border rounded' %>
+              </li>
 
             <% end %>
             </ul>
