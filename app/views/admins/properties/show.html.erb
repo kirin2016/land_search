@@ -1,2 +1,59 @@
-<h1>Admin::Properties#show</h1>
-<p>Find me in app/views/admin/properties/show.html.erb</p>
+<h4><%= @property.name %></h4>
+
+<div><%= @property.introduction %></div>
+
+<div>
+  <% if @property.images.present? %>
+    <div class="d-flex flex-column slider background">
+      <% @property.images.each do |image| %>
+        <%= attachment_image_tag image, :image, :fill, 250, 250, class: "mx-1 my-1 image_contain" %>
+        <%= image.explanation %>
+      <% end %>
+    </div>
+  <% else %>
+    <%= image_tag 'no_image.png', size: '250x250' %>
+  <% end %>
+</div>
+
+
+
+<table class="table table-hover table-inverse my-4">
+
+  <tr>
+    <th>住所</th>
+    <td><%= @property.full_address_admins %></td>
+    <th>交通</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>販売区画数</th>
+    <td></td>
+    <th>総区画数</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>土地面積</th>
+    <td></td>
+    <th>建ぺい率/容積率</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>価格</th>
+    <td></td>
+    <th>土地状況</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>道路幅</th>
+    <td></td>
+    <th>間口</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>不動産名</th>
+    <td></td>
+    <th>担当者・連絡先</th>
+    <td></td>
+  </tr>
+
+</table>

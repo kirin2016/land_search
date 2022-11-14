@@ -11,5 +11,4 @@ class ApplicationRecord < ActiveRecord::Base
   def prefecture_name=(prefecture_name)
     self.prefecture_code = JpPrefecture::Prefecture.find(name: prefecture_name).code
   end
-
 end

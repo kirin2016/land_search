@@ -6,14 +6,18 @@ class Property < ApplicationRecord
   validates :address_city, presence: true
   validates :address_town, presence: true
   validates :address_street, presence: true
-  validates :telephone_number, presence: true
+  validates :nearest_railroad, presence: true
   validates :nearest_station, presence: true
   validates :transportation, presence: true
   validates :building_coverage_ratio, presence: true
   validates :floor_area_ratio, presence: true
+  validates :land_use, inclusion: [true, false]
+  validates :real_estate_name, presence: true
+  validates :real_estate_telephone, presence: true
 
   has_many :land_percels, dependent: :destroy
   has_many :images, dependent: :destroy
+  accepts_nested_attributes_for :images
 
 
 

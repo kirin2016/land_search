@@ -1,5 +1,5 @@
 class Form::LandPercelCollection < Form::Base
-  FORM_COUNT = 5 #ここで、作成したい登録フォームの数を指定
+  FORM_COUNT = 1 #ここで、作成したい登録フォームの数を指定
   attr_accessor :land_percels
 
   def initialize(attributes = {})
@@ -13,7 +13,9 @@ class Form::LandPercelCollection < Form::Base
 
   def save
     LandPercel.transaction do
-      self.land_percels.map(&:save!)
+      self.land_percels.map do |land_percel|
+        land_percel.save!
+      end
     end
       return true
     rescue => e

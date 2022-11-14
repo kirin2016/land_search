@@ -43,28 +43,28 @@
             <td></td>
             <td></td>
           <% else %>
-            <% if property.land_percels.where(sale_status:[0,1]).minimum(area) == property.land_percels.where(sale_status:[0,1]).maximum(area) %>
-              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(area) %>㎡</td>
+            <% if property.land_percels.where(sale_status:[0,1]).minimum(:area) == property.land_percels.where(sale_status:[0,1]).maximum(:area) %>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(:area) %>㎡</td>
             <% else %>
-              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(area) %>～<%= property.land_percels.where(sale_status:[0,1]).maximum(area) %>㎡</td>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(:area) %>～<%= property.land_percels.where(sale_status:[0,1]).maximum(:area) %>㎡</td>
             <% end %>
 
-            <% if property.land_percels.where(sale_status:[0,1]).minimum(price) == property.land_percels.where(sale_status:[0,1]).maximum(price) %>
-              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(price) %>万円（坪<%= property.land_percels.where(sale_status:[0,1]).minimum(price_tsubo) %>万円）</td>
+            <% if property.land_percels.where(sale_status:[0,1]).minimum(:price) == property.land_percels.where(sale_status:[0,1]).maximum(:price) %>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(:price) %>万円（坪<%= property.land_percels.where(sale_status:[0,1]).minimum(:price_tsubo) %>万円）</td>
             <% else %>
-              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(price) %>万円（坪<%= property.land_percels.where(sale_status:[0,1]).minimum(price_tsubo) %>万円）～<%= property.land_percels.where(sale_status:[0,1]).maximum(price) %>万円（坪<%= property.land_percels.where(sale_status:[0,1]).maximum(price_tsubo) %>万円）</td>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(:price) %>万円（坪<%= property.land_percels.where(sale_status:[0,1]).minimum(:price_tsubo) %>万円）～<%= property.land_percels.where(sale_status:[0,1]).maximum(:price) %>万円（坪<%= property.land_percels.where(sale_status:[0,1]).maximum(:price_tsubo) %>万円）</td>
             <% end %>
 
-            <% if property.land_percels.where(sale_status:[0,1]).minimum(main_road_width) == property.land_percels.where(sale_status:[0,1]).maximum(main_road_width) %>
-              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(main_road_width) %>m</td>
+            <% if property.land_percels.where(sale_status:[0,1]).minimum(:main_road_width) == property.land_percels.where(sale_status:[0,1]).maximum(:main_road_width) %>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(:main_road_width) %>m</td>
             <% else %>
-              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(main_road_width) %>～<%= property.land_percels.where(sale_status:[0,1]).maximum(main_road_width) %>m</td>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(:main_road_width) %>～<%= property.land_percels.where(sale_status:[0,1]).maximum(:main_road_width) %>m</td>
             <% end %>
 
-            <% if property.land_percels.where(sale_status:[0,1]).minimum(frontage) == property.land_percels.where(sale_status:[0,1]).maximum(frontage) %>
-              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(frontage) %>m</td>
+            <% if property.land_percels.where(sale_status:[0,1]).minimum(:frontage) == property.land_percels.where(sale_status:[0,1]).maximum(:frontage) %>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(:frontage) %>m</td>
             <% else %>
-              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(frontage) %>～<%= property.land_percels.where(sale_status:[0,1]).maximum(frontage) %>m</td>
+              <td><%= property.land_percels.where(sale_status:[0,1]).minimum(:frontage) %>～<%= property.land_percels.where(sale_status:[0,1]).maximum(:frontage) %>m</td>
             <% end %>
           <% end %>
 

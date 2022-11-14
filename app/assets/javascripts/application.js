@@ -39,3 +39,34 @@ $(function() {
     });
   });
 });
+
+$(function() {
+  $(document).on('turbolinks:load', () => {
+    $('#form_land_percel_collection_property_postal_code').jpostal({
+      postcode : [
+        '#form_land_percel_collection_property_postal_code'
+      ],
+      address: {
+        "#form_land_percel_collection_property_prefecture_code": "%3", // # 都道府県が入力される
+        "#form_land_percel_collection_property_address_city"   : "%4", // # 市区町村が入力される
+        "#form_land_percel_collection_property_address_town"   : "%5", // # 町域が入力される
+        "#form_land_percel_collection_property_address_street" : "%6%7" // # 大口事務所の番地と名称が入力される
+      }
+    });
+  });
+});
+
+
+//= require rails-ujs
+
+$(function() {
+  $('.slider').slick({
+    autoplay:true,
+    autoplaySpeed:5000,
+    dots: true,
+  });
+
+  $('.slick-dots li').on('mouseover', function() {
+    $('.slider').slick('goTo', $(this).index());
+  });
+});

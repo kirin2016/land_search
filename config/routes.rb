@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   namespace :admins do
     get "/" => "properties#index"
     resources :customers, only: [:index, :show, :edit, :update]
-    resources :land_percels, only: [:show, :create, :edit, :update, :destroy] do
+    resources :land_percels, only: [:show, :new, :create, :edit, :update, :destroy] do
       collection do
         post :registration
       end

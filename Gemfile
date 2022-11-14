@@ -57,7 +57,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
 gem "refile", require: "refile/rails", github: 'manfe/refile'
-gem "refile-mini_magick"
+gem "refile-mini_magick", github: 'refile/refile-mini_magick'
 gem 'kaminari','~> 1.2.1'
 gem 'bootstrap', '~> 4.5'
 gem 'jp_prefecture'
@@ -65,3 +65,5 @@ gem 'jquery-rails'
 gem 'webpacker','~> 5.0'
 gem 'font-awesome-sass', '~> 5.13'
 gem "enum_help"
+gem 'carrierwave', '~> 2.0'
+gem 'mini_magick'

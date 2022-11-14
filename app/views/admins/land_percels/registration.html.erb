@@ -1,23 +1,47 @@
 <h4>土地新規登録</h4>
 
-<%= form_with model: @land_percel, url: admins_land_percels_path, method: :post, local: true do |form| %>
+  <%= form_with model: @land_percel, url: admins_land_percels_path, method: :post, local: true do |form| %>
 
   <p class="font-weight-bold">物件写真の説明を入力（撮影箇所・方角など）</p>
-  <%= form.fields_for :images do |f| %>
-    <% if @property.images.present? %>
-      <div class="d-flex flex-wrap">
-        <% @property.images.each do |image| %>
-          <div class="d-flex flex-column">
-            <%= attachment_image_tag image, :image, :fill, 250, 250, class: "mx-1 my-1" %>
-            <%= f.text_field :explanation, class: "form-control mx-1 my-1", style: "width: 250px;" %>
-          </div>
-        <% end %>
-      </div>
-    <% else %>
-      <%= image_tag 'no_image.jpg', size: '200x200' %>
-    <% end %>
-  <% end %>
 
+    <%= form.fields_for @images do |f| %>
+      <% if @images.present? %>
+        <div class="d-flex flex-wrap">
+          <% @images.each do |image| %>
+            <div class="d-flex flex-column">
+              <%= image_tag image.image.to_s, size: '250x250', class: "mx-1 my-1" %>
+              <%= f.text_field :explanation, class: "form-control mx-1 my-1", style: "width: 250px;" %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <%= image_tag 'no_image.png', size: '250x250' %>
+      <% end %>
+    <% end %>
+
+  <%= form.fields_for @property do |f| %>
+    <%= f.hidden_field :name %>
+    <%= f.hidden_field :postal_code %>
+    <%= f.hidden_field :prefecture_code %>
+    <%= f.hidden_field :address_city %>
+    <%= f.hidden_field :address_town %>
+    <%= f.hidden_field :address_street %>
+    <%= f.hidden_field :nearest_railroad %>
+    <%= f.hidden_field :nearest_station %>
+    <%= f.hidden_field :transportation %>
+    <%= f.hidden_field :nearest_bus_stop %>
+    <%= f.hidden_field :walking_time %>
+    <%= f.hidden_field :bus_time %>
+    <%= f.hidden_field :bus_stop_walking_time %>
+    <%= f.hidden_field :car_time %>
+    <%= f.hidden_field :building_coverage_ratio %>
+    <%= f.hidden_field :floor_area_ratio %>
+    <%= f.hidden_field :land_use %>
+    <%= f.hidden_field :real_estate_name %>
+    <%= f.hidden_field :real_estate_staff %>
+    <%= f.hidden_field :real_estate_telephone %>
+    <%= f.hidden_field :introduction %>
+  <% end %>
 
   <table class="table table-hover table-inverse my-4">
     <thead class="text-center">
@@ -55,32 +79,9 @@
     </tbody>
   </table>
 
-  <%= form.fields_for @property do |f| %>
-    <%= f.hidden_field :name %>
-    <%= f.hidden_field :postal_code %>
-    <%= f.hidden_field :prefecture_code %>
-    <%= f.hidden_field :address_city %>
-    <%= f.hidden_field :address_town %>
-    <%= f.hidden_field :address_street %>
-    <%= f.hidden_field :nearest_railroad %>
-    <%= f.hidden_field :nearest_station %>
-    <%= f.hidden_field :transportation %>
-    <%= f.hidden_field :nearest_bus_stop %>
-    <%= f.hidden_field :walking_time %>
-    <%= f.hidden_field :bus_time %>
-    <%= f.hidden_field :bus_stop_walking_time %>
-    <%= f.hidden_field :car_time %>
-    <%= f.hidden_field :building_coverage_ratio %>
-    <%= f.hidden_field :floor_area_ratio %>
-    <%= f.hidden_field :land_use %>
-    <%= f.hidden_field :real_estate_name %>
-    <%= f.hidden_field :real_estate_staff %>
-    <%= f.hidden_field :real_estate_telephone %>
-    <%= f.hidden_field :introduction %>
-  <% end %>
 
   <div class="actions d-flex align-items-center justify-content-center my-5">
     <%= form.submit '新規登録', class:"btn btn-success btn-lg px-0 w-25" %>
   </div>
 
-<% end %>
+  <% end %>
