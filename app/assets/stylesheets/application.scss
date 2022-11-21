@@ -16,6 +16,8 @@
  @import "bootstrap";
  @import 'font-awesome-sprockets';
  @import 'font-awesome';
+ @import "slick-theme";
+ @import "slick";
 
 
 .nav-item {
@@ -33,19 +35,19 @@
 
 .background{
   background-color: black;
+  width: 80%;
   height: auto;
   margin: auto;
 }
 
 .slider{
-  margin: 100px auto;
+  background-color: #111111;
   width: 80%;
+  margin: auto;
+  padding: 20px;
+  vertical-align: middle;
 }
 
-.slider img{
-  height: auto;
-  width: 100%;
-}
 
 h4 {
  margin-top: 30px;
@@ -88,8 +90,15 @@ thead {
 }
 
 
-
 .pagination {
   justify-content: center;
   margin-top: 20px;
+}
+
+.error {
+  color:#262626;
+  background:#FFEBE8;
+  text-align: center;
+  border:2px solid #990000 ;
+  padding:6px; font-weight:850;
 }

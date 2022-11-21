@@ -1,2 +1,31 @@
-<h1>Admin::PlanOrder#index</h1>
-<p>Find me in app/views/admin/plan_order/index.html.erb</p>
+<h4>プラン依頼一覧</h4>
+
+<table class="table table-hover table-inverse my-4">
+  <thead>
+    <tr>
+      <th>プラン依頼ID</th>
+      <th>依頼日時</th>
+      <th>会員名</th>
+      <th>営業担当</th>
+      <th>依頼ステータス</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @plan_orders.each do |plan_order| %>
+      <tr>
+        <td><%= plan_order.id  %></td>
+        <td><%= plan_order.created_at.strftime('%Y/%m/%d') %></td>
+        <td>
+          <%= link_to(admins_customer_path(plan_order.customer_id)) do %>
+            <%= plan_order.customer.last_name %>　<%= plan_order.customer.first_name %>
+          <% end %>
+        </td>
+        <td><%= plan_order.customer.sale_staff %></td>
+        <td><%= plan_order.order_status_i18n %></td>
+        <td><%= link_to '依頼詳細', admins_plan_order_path(plan_order.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

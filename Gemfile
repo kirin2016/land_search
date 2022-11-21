@@ -67,3 +67,4 @@ gem 'font-awesome-sass', '~> 5.13'
 gem "enum_help"
 gem 'carrierwave', '~> 2.0'
 gem 'mini_magick'
+gem 'rails-i18n'

@@ -1,5 +1,9 @@
 class Admins::LandPercelsController < ApplicationController
+
   def show
+    @land_percel = LandPercel.find(params[:id])
+    @property = @land_percel.property
+    @plan_orders = @land_percel.plan_orders
   end
 
   def registration
@@ -13,7 +17,7 @@ class Admins::LandPercelsController < ApplicationController
     end
   end
 
-  def create
+  def new_create
     @property = Property.new(form_property_params)
     @land_percel = Form::LandPercelCollection.new(land_percel_collection_params)
     if @property.save
@@ -30,13 +34,29 @@ class Admins::LandPercelsController < ApplicationController
       else
 
         @property = Property.new(form_property_params)
-        flash.now[:danger] = '土地登録にエラーが発生し、登録できませんでした。'
+        flash.now[:danger] = 'エラーが発生し、土地情報を正しく登録できませんでした。'
         render :registration
       end
     else
       @property = Property.new(form_property_params)
       flash.now[:danger] = '物件登録にエラーが発生し、登録できませんでした。'
       render template: "properties/new"
+    end
+  end
+
+  def create
+    @land_percel = LandPercel.new(land_percel_params)
+    if @land_percel.valid?
+      @area_tsubo = @land_percel.area.to_f * 0.3025
+      @land_percel.price_tsubo = (@land_percel.price.to_f / @area_tsubo.to_f).round(0)
+      if @land_percel.save
+        flash[:notice] = '土地情報を新規登録しました。'
+        redirect_to admins_property_path(@land_percel.property_id)
+      end
+    else
+      @property = Property.find(@land_percel.property_id)
+      flash.now[:danger] = 'エラーが発生し、土地情報を正しく登録できませんでした。'
+      render template: "admins/properties/show"
     end
   end
 
@@ -47,6 +67,10 @@ class Admins::LandPercelsController < ApplicationController
   end
 
   def destroy
+    @land_percel = LandPercel.find(params[:id])
+    @land_percel.destroy
+    flash[:success] = "土地区画#{@land_percel.name}を削除しました。"
+    redirect_to admins_property_path(@land_percel.property_id)
   end
 
 
@@ -103,6 +127,26 @@ class Admins::LandPercelsController < ApplicationController
           :sale_status,
           :reference_plan,
           :comment])
+  end
+
+
+  def land_percel_params
+        params.require(:land_percel).permit(
+          :property_id,
+          :name,
+          :price,
+          :area,
+          :price_tsubo,
+          :shape,
+          :connecting_road_situation,
+          :main_road_width,
+          :main_road_direction,
+          :frontage,
+          :difference_elevation,
+          :private_road_burden,
+          :sale_status,
+          :reference_plan,
+          :comment)
   end
 
 end

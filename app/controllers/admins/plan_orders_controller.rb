@@ -1,5 +1,6 @@
 class Admins::PlanOrdersController < ApplicationController
   def index
+    @plan_orders = PlanOrder.all
   end
 
   def show

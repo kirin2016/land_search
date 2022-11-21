@@ -13,6 +13,7 @@ class Customer < ApplicationRecord
   validates :address_city, presence: true
   validates :address_street, presence: true
   validates :telephone_number, presence: true
+  validates :is_deleted, inclusion: [true, false]
 
   has_many :bookmarks, dependent: :destroy
   has_many :plan_orders, dependent: :destroy
@@ -23,7 +24,7 @@ class Customer < ApplicationRecord
   end
 
   enum house_type: { single_family_home: 0, two_family_home: 1, multi_family_home: 2 }
-  enum kitchen_type: { wall: 0, peninsula: 1, island: 2 }
+  enum kitchen_type: { wall: 0, peninsula: 1, island: 2 , others: 3}, _prefix: true
   enum bathroom_area: { one_tsubo: 0, one_quarter_tsubo: 1, others: 2 }, _prefix: true
   enum japanese_room: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true
   enum storage: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true

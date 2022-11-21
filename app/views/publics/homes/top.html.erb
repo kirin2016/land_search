@@ -28,7 +28,7 @@
   <% @properties.each do |property| %>
     <div class="col-lg-3 px-0 mr-3 image_size_small">
       <%= link_to property_path(property.id) do %>
-        <%= attachment_image_tag property, :image %><br>
+        <%#= image_tag property, :image %><br>
         <%= property.name %><br>
         <%= property.full_address_publics %>
       <% end %>

@@ -1,2 +1,194 @@
-<h1>Publics::Customers#show</h1>
-<p>Find me in app/views/publics/customers/show.html.erb</p>
+<h4>マイページ</h4>
+
+<div class="row w-auto">
+  <h3 class="col-lg-2">登録情報</h3>
+  <div class="col-lg-1"></div>
+  <div class="col-lg-3"><%= link_to "編集する", edit_customer_path(current_customer.id), class:"btn btn-success px-0 w-50" %></div>
+</div>
+
+
+<h5 class="mt-4 mb-3 ml-4">基本情報一覧</h5>
+
+<table class="table table-bordered table-inverse ml-4" style="width: 67%;">
+  <tr>
+	  <th bgcolor="whitesmoke" style="width: 180px;">氏名</th>
+    <td><%= @customer.last_name %>　<%= @customer.first_name %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke">カナ</th>
+    <td><%= @customer.last_name_kana %>　<%= @customer.first_name_kana %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke">郵便番号</th>
+    <td><%= @customer.postal_code %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke">住所</th>
+    <td><%= @customer.prefecture_name %><%= @customer.address_city %><%= @customer.address_street %>　<%= @customer.address_building %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke">電話番号</th>
+    <td><%= @customer.telephone_number %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke">メールアドレス</th>
+    <td><%= @customer.email %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke">会員ステータス</th>
+    <% if @customer.is_deleted == false %>
+      <td class="text-success font-weight-bold">有効</td>
+		<% elsif @customer.is_deleted == true %>
+		  <td class="text-muted font-weight-bold">退会</td>
+		<% end %>
+	</tr>
+</table>
+
+
+<h5 class="mt-5 mb-3 ml-4">プラン要望一覧（プラン作成依頼前にご入力ください）</h5>
+
+<table class="table table-bordered table-inverse  ml-4 mb-5">
+  <tr>
+	  <th bgcolor="whitesmoke" class="align-middle" style="width: 180px;">入居予定人数</th>
+    <td class="align-middle" style="width: 180px;"><%= @customer.tenant_number %>人</td>
+    <th bgcolor="whitesmoke" class="align-middle" style="width: 180px;">入居者構成</th>
+    <td class="align-middle" style="width: 180px;"><%= @customer.tenant_member %></td>
+    <th bgcolor="whitesmoke" class="align-middle" style="width: 180px;">住居種類</th>
+    <td class="align-middle" style="width: 180px;"><%= @customer.house_type_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">総予算(土地代含む)</th>
+    <td class="align-middle"><%= @customer.total_budget %>万円</td>
+    <th bgcolor="whitesmoke" class="align-middle">建物階数</th>
+    <td class="align-middle"><%= @customer.number_floor %>階建て</td>
+    <th bgcolor="whitesmoke" class="align-middle">建物面積</th>
+    <td class="align-middle"><%= @customer.floor_area %>㎡</td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">部屋数</th>
+    <td class="align-middle"><%= @customer.number_room %></td>
+    <th bgcolor="whitesmoke" class="align-middle">LDK階数</th>
+    <td class="align-middle"><%= @customer.ldk_floor_number %></td>
+    <th bgcolor="whitesmoke" class="align-middle">LDK広さ</th>
+    <td class="align-middle"><%= @customer.ldk_area %>帖</td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">キッチンタイプ</th>
+    <td class="align-middle"><%= @customer.kitchen_type_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">MBr(主寝室)広さ</th>
+    <td class="align-middle"><%= @customer.mbr_area %>帖</td>
+    <th bgcolor="whitesmoke" class="align-middle">Br(洋室)広さ</th>
+    <td class="align-middle"><%= @customer.br_area %>帖</td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">浴室広さ</th>
+    <td class="align-middle"><%= @customer.bathroom_area_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">和室</th>
+    <td class="align-middle"><%= @customer.japanese_room_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">納戸</th>
+    <td class="align-middle"><%= @customer.storage_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">書斎</th>
+    <td class="align-middle"><%= @customer.den_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">書斎タイプ</th>
+    <td class="align-middle"><%= @customer.den_type_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">WIC(ウォークイン・クローゼット)</th>
+    <td class="align-middle"><%= @customer.wic_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">FC(ファミリークローク)</th>
+    <td class="align-middle"><%= @customer.family_closet_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">SIC(シューズイン・クローク)</th>
+    <td class="align-middle"><%= @customer.sic_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">パントリー</th>
+    <td class="align-middle"><%= @customer.pantry_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">ロフト</th>
+    <td class="align-middle"><%= @customer.loft_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">吹き抜け</th>
+    <td class="align-middle"><%= @customer.void_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">ランドリールーム</th>
+    <td class="align-middle"><%= @customer.laundry_room_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">庭</th>
+    <td class="align-middle"><%= @customer.garden_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">駐車予定台数</th>
+    <td class="align-middle"><%= @customer.parking_number %>台</td>
+    <th bgcolor="whitesmoke" class="align-middle">車種</th>
+    <td class="align-middle"><%= @customer.car_model %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">駐輪予定台数</th>
+    <td class="align-middle"><%= @customer.bicycle_parking_number %>台</td>
+	</tr>
+
+	<tr>
+    <th bgcolor="whitesmoke" class="align-middle">その他要望詳細</th>
+    <td colspan="5" class="align-middle"><%= @customer.request_details %></td>
+	</tr>
+</table>
+
+
+
+<h3 class="mt-5">プラン作成依頼履歴</h3>
+
+<% if @plan_orders.present? %>
+
+  <table class="table table-hover table-inverse my-4 ml-4">
+    <thead>
+      <tr>
+        <th>物件名・区画名</th>
+        <th>住所</th>
+        <th>販売ステータス</th>
+        <th>依頼日時</th>
+        <th>依頼ステータス</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @plan_orders.each do |plan_order| %>
+        <tr>
+          <td>
+            <%= link_to(land_percel_path(plan_order.land_percel_id)) do %>
+              <%= plan_order.land_percel.property.name %>　<%= plan_order.land_percel.name %>区画
+            <% end %>
+          </td>
+          <td><%= plan_order.land_percel.property.full_address_publics %></td>
+          <% if plan_order.land_percel.sale_status = 'on_sale' %>
+            <td class="px-0 align-middle text-success font-weight-bold"><%= plan_order.land_percel.sale_status_i18n %></td>
+          <% elsif plan_order.land_percel.sale_status = 'sales_pending' %>
+            <td class="px-0 align-middle text-warning font-weight-bold"><%= plan_order.land_percel.sale_status_i18n %></td>
+          <% else %>
+            <td class="px-0 align-middle text-muted font-weight-bold"><%= plan_order.land_percel.sale_status_i18n %></td>
+          <% end %>
+          <td><%= plan_order.created_at.strftime('%Y/%m/%d') %></td>
+          <td><%= plan_order.order_status_i18n %></td>
+          <td><%= link_to '依頼詳細', plan_order_path(plan_order.id) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+  <h5 class="d-flex justify-content-center my-4">プラン作成依頼をまだしていません</h5>
+
+<% end %>

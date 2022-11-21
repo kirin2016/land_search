@@ -8,6 +8,8 @@ class Admins::PropertiesController < ApplicationController
 
   def show
     @property = Property.find(params[:id])
+    @land_percels = @property.land_percels
+    @land_percel = LandPercel.new
   end
 
   def new
@@ -19,8 +21,13 @@ class Admins::PropertiesController < ApplicationController
   def create
     @property = Property.new(property_params)
     if @property.save
-      flash[:success] = "#{@property.name}を新規登録しました。"
-      redirect_to admins_property_path(@property.id)
+      if params[:images].present?
+        params[:images][:image].each do |i|
+          @property.images.create!(image: i, property_id: @property.id)
+        end
+        flash[:success] = "物件情報を新規登録しました。"
+        redirect_to admins_property_path(@property.id)
+      end
     else
       flash.now[:danger] = 'エラーが発生し、登録できませんでした。'
       render :new

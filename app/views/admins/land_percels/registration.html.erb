@@ -1,6 +1,6 @@
 <h4>土地新規登録</h4>
 
-  <%= form_with model: @land_percel, url: admins_land_percels_path, method: :post, local: true do |form| %>
+  <%= form_with model: @land_percel, url: new_create_admins_land_percels_path, method: :post, local: true do |form| %>
 
   <p class="font-weight-bold">物件写真の説明を入力（撮影箇所・方角など）</p>
 
@@ -47,8 +47,8 @@
     <thead class="text-center">
       <tr>
         <th style="width: 80px;">区画名</th>
-        <th style="width: 100px;">価格(万円)</th>
         <th style="width: 100px;">面積(㎡)</th>
+        <th style="width: 100px;">価格(万円)</th>
         <th style="width: 135px;">形状</th>
         <th style="width: 135px;">接道状況</th>
         <th style="width: 90px;">主要道路幅(m)</th>
@@ -64,8 +64,8 @@
       <%= form.fields_for :land_percels do |f| %>
         <tr>
           <td><%= f.text_field :name, class: "form-control px-1" %></td>
-          <td><%= f.text_field :price, class: "form-control px-1" %></td>
           <td><%= f.text_field :area, class: "form-control px-1" %></td>
+          <td><%= f.text_field :price, class: "form-control px-1" %></td>
           <td><%= f.select :shape, LandPercel.shapes.keys.map {|k|[I18n.t("enums.land_percel.shape.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
           <td><%= f.select :connecting_road_situation, LandPercel.connecting_road_situations.keys.map {|k|[I18n.t("enums.land_percel.connecting_road_situation.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
           <td><%= f.text_field :main_road_width, class: "form-control px-1" %></td>

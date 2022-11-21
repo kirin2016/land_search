@@ -18,6 +18,7 @@ ActiveStorage.start()
 //= require turbolinks
 //= require jquery.jpostal
 //= require_tree .
+/*global $*/
 
 $(function() {
   $(document).on('turbolinks:load', () => {
@@ -50,3 +51,15 @@ $(function() {
   });
 });
 
+
+$(function() {
+  $('.slider').slick({
+    autoplay:true,
+    autoplaySpeed:5000,
+    dots: true,
+  });
+
+  $('.slick-dots li').on('mouseover', function() {
+    $('.slider').slick('goTo', $(this).index());
+  });
+});

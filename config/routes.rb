@@ -9,9 +9,14 @@ Rails.application.routes.draw do
   scope module: :publics do
     root to: 'homes#top'
     resources :bookmarks, only: [:index, :create, :destroy]
-    resources :customers, only: [:show, :edit, :order, :update]
+    resources :customers, only: [:show, :edit, :update] do
+      collection do
+        get :unsubscribe
+        patch :withdrawal
+      end
+    end
     resources :land_percels, only: [:show]
-    resources :plan_orders, only: [:index, :show]
+    resources :plan_orders, only: [:show, :create]
     resources :properties, only: [:index, :show] do
       collection do
         get :search
@@ -30,9 +35,10 @@ Rails.application.routes.draw do
     resources :land_percels, only: [:show, :new, :create, :edit, :update, :destroy] do
       collection do
         post :registration
+        post :new_create
       end
     end
-    resources :plan_orders, only: [:index, :show, :update]
+    resources :plan_orders, only: [:show, :update]
     resources :properties do
       collection do
         get :search

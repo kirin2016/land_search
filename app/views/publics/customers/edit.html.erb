@@ -1,2 +1,413 @@
-<h1>Publics::Customers#edit</h1>
-<p>Find me in app/views/publics/customers/edit.html.erb</p>
+<h4>マイページ編集</h4>
+
+
+<%= form_with model: @customer, url: customer_path(current_customer.id), local: true do |f| %>
+
+  <h5 class="my-4">基本情報編集</h5>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :last_name, "氏名" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :last_name, "(性)" %></div>
+    <div class="col-lg-3"><%= f.text_field :last_name, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :first_name, "(名)" %></div>
+    <div class="col-lg-3"><%= f.text_field :first_name, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :last_name_kana, "フリガナ" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :last_name_kana, "(セイ)" %></div>
+    <div class="col-lg-3"><%= f.text_field :last_name_kana, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :first_name_kana, "(メイ)" %></div>
+    <div class="col-lg-3"><%= f.text_field :first_name_kana, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :email, "メールアドレス" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-3"><%= f.text_field :email, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 px-0"><%= f.label :postal_code, "郵便番号" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-3"><%= f.text_field :postal_code, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :prefecture_code, "住所" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :prefecture_code, "(都道府県)" %></div>
+    <div class="col-lg-3"><%= f.collection_select :prefecture_code, JpPrefecture::Prefecture.all, :code, :name, {}, {class: "form-control"} %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :address_city, "(市区町村)" %></div>
+    <div class="col-lg-3"><%= f.text_field :address_city, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :address_street, "(町名番地)" %></div>
+    <div class="col-lg-3"><%= f.text_field :address_street, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :address_building, "(建物名)" %></div>
+    <div class="col-lg-7"><%= f.text_field :address_building, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :telephone_number, "電話番号" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-3"><%= f.text_field :telephone_number, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :email, "メールアドレス" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-3"><%= f.text_field :email, class: "form-control" %></div>
+  </div>
+
+
+  <h5 class="mt-5 mb-4">プラン要望編集</br>（広さは最低限必要なサイズでご入力ください、特に希望がない箇所は空欄で結構です）</h5>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :tenant_number, "新築入居者" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :tenant_number, "人数(人)" %></div>
+    <div class="col-lg-2"><%= f.text_field :tenant_number, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :tenant_member, "家族構成" %></div>
+    <div class="col-lg-5"><%= f.text_field :tenant_member, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :house_type_single_family_home, "住居種類" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :house_type, :single_family_home, class: "radio ml-3 mb-2" %>
+      <%= f.label :house_type_single_family_home, Customer.house_types_i18n[:single_family_home], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :house_type, :two_family_home, class: "radio mb-2" %>
+      <%= f.label :house_type_two_family_home, Customer.house_types_i18n[:two_family_home], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :house_type, :multi_family_home, class: "radio mb-2" %>
+      <%= f.label :house_type_multi_family_home, Customer.house_types_i18n[:multi_family_home], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :total_budget, "土地+建物総予算（万円）" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2"><%= f.text_field :total_budget, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :number_floor, "建物規模" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :number_floor, "階数" %></div>
+    <div class="col-lg-2"><%= f.text_field :number_floor, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :floor_area, "面積(㎡)" %></div>
+    <div class="col-lg-2"><%= f.text_field :floor_area, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :number_room, "部屋数" %></div>
+    <div class="col-lg-2"><%= f.text_field :number_room, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :ldk_floor_number, "LDK" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :ldk_floor_number, "場所(階)" %></div>
+    <div class="col-lg-2"><%= f.text_field :ldk_floor_number, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :ldk_area, "広さ(帖)" %></div>
+    <div class="col-lg-2"><%= f.text_field :ldk_area, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :kitchen_type_wall, "キッチンタイプ" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :kitchen_type, :wall, class: "radio ml-3 mb-2" %>
+      <%= f.label :kitchen_type_wall, Customer.kitchen_types_i18n[:wall], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-3 d-flex">
+      <%= f.radio_button :kitchen_type, :peninsula, class: "radio mb-2" %>
+      <%= f.label :kitchen_type_peninsula, Customer.kitchen_types_i18n[:peninsula], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :kitchen_type, :island, class: "radio mb-2" %>
+      <%= f.label :kitchen_type_island, Customer.kitchen_types_i18n[:island], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :kitchen_type, :others, class: "radio mb-2" %>
+      <%= f.label :kitchen_type_others, Customer.kitchen_types_i18n[:others], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :mbr_area, "部屋の広さ(帖)" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :mbr_area, "MBr(主寝室)" %></div>
+    <div class="col-lg-2"><%= f.text_field :mbr_area, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :br_area, "Br(洋室)" %></div>
+    <div class="col-lg-2"><%= f.text_field :br_area, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :bathroom_area_one_tsubo, "浴室広さ" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :bathroom_area, :one_tsubo, class: "ml-3 mb-2" %>
+      <%= f.label :bathroom_area_one_tsubo, Customer.bathroom_areas_i18n[:one_tsubo], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :bathroom_area, :one_quarter_tsubo, class: "mb-2" %>
+      <%= f.label :bathroom_area_one_quarter_tsubo, Customer.bathroom_areas_i18n[:one_quarter_tsubo], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :bathroom_area, :others, class: "mb-2" %>
+      <%= f.label :bathroom_area_others, Customer.bathroom_areas_i18n[:others], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :japanese_room_want, "和室" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :japanese_room, :want, class: "ml-3 mb-2" %>
+      <%= f.label :japanese_room_want, Customer.japanese_rooms_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :japanese_room, :if_have_room, class: "mb-2" %>
+      <%= f.label :japanese_room_if_have_room, Customer.japanese_rooms_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :japanese_room, :needless, class: "mb-2" %>
+      <%= f.label :japanese_room_needless, Customer.japanese_rooms_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :storage_want, "納戸" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :storage, :want, class: "ml-3 mb-2" %>
+      <%= f.label :storage_want, Customer.storages_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :storage, :if_have_room, class: "mb-2" %>
+      <%= f.label :storage_if_have_room, Customer.storages_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :storage, :needless, class: "mb-2" %>
+      <%= f.label :storage_needless, Customer.storages_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :den_want, "書斎" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :den, :want, class: "ml-3 mb-2" %>
+      <%= f.label :den_want, Customer.dens_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :den, :if_have_room, class: "mb-2" %>
+      <%= f.label :den_if_have_room, Customer.dens_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :den, :needless, class: "mb-2" %>
+      <%= f.label :den_needless, Customer.dens_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :den_type_open_type, "書斎タイプ" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :den_type, :open_type, class: "ml-3 mb-2" %>
+      <%= f.label :den_type_open_type, Customer.den_types_i18n[:open_type], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :den_type, :closed_type, class: "mb-2" %>
+      <%= f.label :den_type_closed_type, Customer.den_types_i18n[:closed_type], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :den_type, :others, class: "mb-2" %>
+      <%= f.label :den_type_others, Customer.den_types_i18n[:others], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :wic_want, "WIC(ウォークイン・クローゼット)" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :wic, :want, class: "ml-3 mb-2" %>
+      <%= f.label :wic_want, Customer.wics_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :wic, :if_have_room, class: "mb-2" %>
+      <%= f.label :wic_if_have_room, Customer.wics_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :wic, :needless, class: "mb-2" %>
+      <%= f.label :wic_needless, Customer.wics_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :family_closet_want, "FC(ファミリークローク)" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :family_closet, :want, class: "ml-3 mb-2" %>
+      <%= f.label :family_closet_want, Customer.family_closets_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :family_closet, :if_have_room, class: "mb-2" %>
+      <%= f.label :family_closet_if_have_room, Customer.family_closets_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :family_closet, :needless, class: "mb-2" %>
+      <%= f.label :family_closet_needless, Customer.family_closets_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :sic_want, "SIC(シューズイン・クローゼット)" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :sic, :want, class: "ml-3 mb-2" %>
+      <%= f.label :sic_want, Customer.sics_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :sic, :if_have_room, class: "mb-2" %>
+      <%= f.label :sic_if_have_room, Customer.sics_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :sic, :needless, class: "mb-2" %>
+      <%= f.label :sic_needless, Customer.sics_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :pantry_want, "パントリー" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :pantry, :want, class: "ml-3 mb-2" %>
+      <%= f.label :pantry_want, Customer.pantries_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :pantry, :if_have_room, class: "mb-2" %>
+      <%= f.label :pantry_if_have_room, Customer.pantries_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :pantry, :needless, class: "mb-2" %>
+      <%= f.label :pantry_needless, Customer.pantries_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :loft_want, "ロフト" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :loft, :want, class: "ml-3 mb-2" %>
+      <%= f.label :loft_want, Customer.lofts_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :loft, :if_have_room, class: "mb-2" %>
+      <%= f.label :loft_if_have_room, Customer.lofts_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :loft, :needless, class: "mb-2" %>
+      <%= f.label :loft_needless, Customer.lofts_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :void_want, "吹き抜け" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :void, :want, class: "ml-3 mb-2" %>
+      <%= f.label :void_want, Customer.voids_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :void, :if_have_room, class: "mb-2" %>
+      <%= f.label :void_if_have_room, Customer.voids_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :void, :needless, class: "mb-2" %>
+      <%= f.label :void_needless, Customer.voids_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :laundry_room_want, "ランドリールーム" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :laundry_room, :want, class: "ml-3 mb-2" %>
+      <%= f.label :laundry_room_want, Customer.laundry_rooms_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :laundry_room, :if_have_room, class: "mb-2" %>
+      <%= f.label :laundry_room_if_have_room, Customer.laundry_rooms_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :laundry_room, :needless, class: "mb-2" %>
+      <%= f.label :laundry_room_needless, Customer.laundry_rooms_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :garden_want, "庭" %></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :garden, :want, class: "ml-3 mb-2" %>
+      <%= f.label :garden_want, Customer.gardens_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :garden, :if_have_room, class: "mb-2" %>
+      <%= f.label :garden_if_have_room, Customer.gardens_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :garden, :needless, class: "mb-2" %>
+      <%= f.label :garden_needless, Customer.gardens_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :parking_number, "車スペース" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :parking_number, "駐車台数(台)" %></div>
+    <div class="col-lg-2"><%= f.text_field :parking_number, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :car_model, "車種" %></div>
+    <div class="col-lg-5"><%= f.text_field :car_model, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :parking_number, "自転車スペース" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :bicycle_parking_number, "駐輪台数(台)" %></div>
+    <div class="col-lg-2"><%= f.text_field :bicycle_parking_number, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :request_details, "その他要望詳細" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-8"><%= f.text_area :request_details, class: "form-control" %></div>
+  </div>
+
+
+
+  <div class="actions row d-flex align-items-center my-5">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4"><%= f.submit '編集内容を保存', class:"btn btn-success btn-lg px-0 w-75" %></div>
+    <div class="col-lg-4"><%= link_to '退会する', unsubscribe_customers_path(current_customer.id), class:"btn btn-danger btn-lg px-0 w-50" %></div>
+  </div>
+
+<% end %>

@@ -186,13 +186,14 @@ ja:
     customer: # モデル名
       house_type: # カラム名
         single_family_home: '単世帯住宅'
-        single_family_home: '二世帯住宅'
-        single_family_home: '多世帯住宅'
+        two_family_home: '二世帯住宅'
+        multi_family_home: '多世帯住宅'
 
       kitchen_type:
         wall: '壁付'
-        peninsula: 'ペニンシュラ（対面）'
+        peninsula: 'ペニンシュラ(対面)'
         island: 'アイランド'
+        others: 'その他'
 
       bathroom_area:
         one_tsubo: '1坪'
@@ -216,7 +217,7 @@ ja:
 
       den_type:
         open_type: 'オープン'
-        closed_type: 'クローズド（個室）'
+        closed_type: 'クローズド(個室)'
         others: 'その他'
 
       wic:
@@ -265,10 +266,10 @@ ja:
         regular: '整形地'
         flag_pole: '旗竿地'
         irregular: '不整形地'
-        long_narrow: '奥行長大地（うなぎの寝床）'
+        long_narrow: '奥行長大地　(うなぎの寝床)'
 
       connecting_road_situation:
-        one_frontage: '中間画地（一方路地）'
+        one_frontage: '中間画地　(一方路地)'
         corner_lot: '角地'
         two_frontages: '二方路地'
         three_four_frontages: '三方・四方路地'
@@ -293,13 +294,14 @@ ja:
 
       house_type_order:
         single_family_home: '単世帯住宅'
-        single_family_home: '二世帯住宅'
-        single_family_home: '多世帯住宅'
+        two_family_home: '二世帯住宅'
+        multi_family_home: '多世帯住宅'
 
       kitchen_type_order:
         wall: '壁付'
-        peninsula: 'ペニンシュラ（対面）'
+        peninsula: 'ペニンシュラ(対面)'
         island: 'アイランド'
+        others: 'その他'
 
       bathroom_area_order:
         one_tsubo: '1坪'
@@ -323,7 +325,7 @@ ja:
 
       den_type_order:
         open_type: 'オープン'
-        closed_type: 'クローズド（個室）'
+        closed_type: 'クローズド(個室)'
         others: 'その他'
 
       wic_order:

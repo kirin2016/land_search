@@ -8,6 +8,7 @@
 //= require turbolinks
 //= require jquery.jpostal
 //= require_tree .
+/*global $*/
 
 $(function() {
   $(document).on('turbolinks:load', () => {
@@ -57,12 +58,11 @@ $(function() {
 });
 
 
-//= require rails-ujs
 
 $(function() {
   $('.slider').slick({
     autoplay:true,
-    autoplaySpeed:5000,
+    autoplaySpeed:4000,
     dots: true,
   });
 

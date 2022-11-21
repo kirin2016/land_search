@@ -1,15 +1,15 @@
 class LandPercel < ApplicationRecord
 
   validates :property_id, presence: true
-  validates :name, presence: true
-  validates :price, presence: true
-  validates :area, presence: true
-  validates :price_tsubo, presence: true
+  validates :name, presence: true, uniqueness: { scope: :property_id }
+  validates :price, presence: true, numericality: { greater_than: 0 }
+  validates :area, presence: true, numericality: { greater_than: 0 }
+  validates :price_tsubo, presence: true, allow_blank: true
   validates :shape, presence: true
   validates :connecting_road_situation, presence: true
-  validates :main_road_width, presence: true
+  validates :main_road_width, presence: true, numericality: {greater_than: 0}
   validates :main_road_direction, presence: true
-  validates :frontage, presence: true
+  validates :frontage, presence: true, numericality: {greater_than: 0}
   validates :difference_elevation, inclusion: [true, false]
   validates :private_road_burden, inclusion: [true, false]
   validates :sale_status, presence: true
@@ -18,7 +18,7 @@ class LandPercel < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :plan_orders, dependent: :destroy
 
-  mount_uploader :image, ImageUploader
+  mount_uploader :reference_plan_id, ImageUploader
 
 
   enum shape: { regular: 0, flag_pole: 1, irregular: 2, long_narrow: 3 }
