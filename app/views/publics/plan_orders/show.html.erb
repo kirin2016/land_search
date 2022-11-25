@@ -1,2 +1,94 @@
-<h1>Publics::PlanOrders#show</h1>
-<p>Find me in app/views/publics/plan_orders/show.html.erb</p>
+<h5 class="mt-5 mb-3 ml-4">依頼されたプラン要望</h5>
+
+<table class="table table-bordered table-inverse  ml-4 mb-5">
+  <tr>
+	  <th bgcolor="whitesmoke" class="align-middle" style="width: 180px;">入居予定人数</th>
+    <td class="align-middle" style="width: 180px;"><%= @plan_order.tenant_number_order %>人</td>
+    <th bgcolor="whitesmoke" class="align-middle" style="width: 180px;">入居者構成</th>
+    <td class="align-middle" style="width: 180px;"><%= @plan_order.tenant_member_order %></td>
+    <th bgcolor="whitesmoke" class="align-middle" style="width: 180px;">住居種類</th>
+    <td class="align-middle" style="width: 180px;"><%= @plan_order.house_type_order_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">総予算(土地代含む)</th>
+    <td class="align-middle"><%= @plan_order.total_budget_order %>万円</td>
+    <th bgcolor="whitesmoke" class="align-middle">建物階数</th>
+    <td class="align-middle"><%= @plan_order.number_floor_order %>階建て</td>
+    <th bgcolor="whitesmoke" class="align-middle">建物面積</th>
+    <td class="align-middle"><%= @plan_order.floor_area_order %>㎡</td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">部屋数</th>
+    <td class="align-middle"><%= @plan_order.number_room_order %></td>
+    <th bgcolor="whitesmoke" class="align-middle">LDK階数</th>
+    <td class="align-middle"><%= @plan_order.ldk_floor_number_order %></td>
+    <th bgcolor="whitesmoke" class="align-middle">LDK広さ</th>
+    <td class="align-middle"><%= @plan_order.ldk_area_order %>帖</td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">キッチンタイプ</th>
+    <td class="align-middle"><%= @plan_order.kitchen_type_order_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">MBr(主寝室)広さ</th>
+    <td class="align-middle"><%= @plan_order.mbr_area_order %>帖</td>
+    <th bgcolor="whitesmoke" class="align-middle">Br(洋室)広さ</th>
+    <td class="align-middle"><%= @plan_order.br_area_order %>帖</td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">浴室広さ</th>
+    <td class="align-middle"><%= @plan_order.bathroom_area_order_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">和室</th>
+    <td class="align-middle"><%= @plan_order.japanese_room_order_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">納戸</th>
+    <td class="align-middle"><%= @plan_order.storage_order_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">書斎</th>
+    <td class="align-middle"><%= @plan_order.den_order_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">書斎タイプ</th>
+    <td class="align-middle"><%= @plan_order.den_type_order_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">WIC(ウォークイン・クローゼット)</th>
+    <td class="align-middle"><%= @plan_order.wic_order_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">FC(ファミリークローク)</th>
+    <td class="align-middle"><%= @plan_order.family_closet_order_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">SIC(シューズイン・クローク)</th>
+    <td class="align-middle"><%= @plan_order.sic_order_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">パントリー</th>
+    <td class="align-middle"><%= @plan_order.pantry_order_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">ロフト</th>
+    <td class="align-middle"><%= @plan_order.loft_order_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">吹き抜け</th>
+    <td class="align-middle"><%= @plan_order.void_order_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">ランドリールーム</th>
+    <td class="align-middle"><%= @plan_order.laundry_room_order_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">庭</th>
+    <td class="align-middle"><%= @plan_order.garden_order_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">駐車予定台数</th>
+    <td class="align-middle"><%= @plan_order.parking_number_order %>台</td>
+    <th bgcolor="whitesmoke" class="align-middle">車種</th>
+    <td class="align-middle"><%= @plan_order.car_model_order %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">駐輪予定台数</th>
+    <td class="align-middle"><%= @plan_order.bicycle_parking_number_order %>台</td>
+	</tr>
+
+	<tr>
+    <th bgcolor="whitesmoke" class="align-middle">その他要望詳細</th>
+    <td colspan="5" class="align-middle"><%= @plan_order.request_details_order %></td>
+	</tr>
+</table>

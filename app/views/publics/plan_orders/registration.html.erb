@@ -1,0 +1,222 @@
+<h4>新規プラン作成依頼</h4>
+
+<h5 class="d-flex align-items-center justify-content-center text-info">内容に不備が無いか確認し、必要事項をご入力ください</h5>
+
+
+<h5 class="mt-5 mb-3 ml-4">・プラン作成依頼する土地情報</h5>
+
+<table class="table table-bordered table-inverse ml-4">
+  <tr>
+    <th bgcolor="whitesmoke">住所</th>
+    <td><%= @land_percel.property.full_address_publics %></td>
+    <th bgcolor="whitesmoke">交通</th>
+    <td>
+      <%= @property.nearest_railroad %>「<%= @property.nearest_station %>」
+      <% if @property.transportation == 'walking' %>
+        徒歩<%= @property.walking_time %>分
+      <% elsif @property.transportation == 'bus' %>
+        バス<%= @property.bus_time %>分　停歩<%= @property.walking_time %>分
+      <% else %>
+        車<%= @property.car_time %>分
+      <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <th bgcolor="whitesmoke">物件名・区画名</th>
+    <% if @land_percel.name.present? %>
+      <td><%= link_to @property.name, property_path(@land_percel.property_id)  %>　第<%= @land_percel.name %>区画</td>
+    <% else %>
+      <td><%= link_to @property.name, property_path(@land_percel.property_id)  %></td>
+    <% end %>
+    <th bgcolor="whitesmoke">土地面積</th>
+    <td><%= @land_percel.area %>㎡</td>
+  </tr>
+
+  <tr>
+    <th bgcolor="whitesmoke">価格</th>
+    <td><%= @land_percel.price %>万円（坪<%= @land_percel.price_tsubo %>万円）</td>
+    <th bgcolor="whitesmoke">建ぺい率/容積率</th>
+    <td><%= @property.building_coverage_ratio %>%/<%= @property.floor_area_ratio %>%</td>
+  </tr>
+
+  <tr>
+    <th bgcolor="whitesmoke">道路状況</th>
+    <td>
+      <%= @land_percel.connecting_road_situation_i18n %></br>
+      幅<%= @land_percel.main_road_width %>m<%= @land_percel.main_road_direction_i18n %>道路
+      <% if @land_percel.difference_elevation == false %>私道負担なし
+      <% else %>私道負担あり
+      <% end %>
+    </td>
+    <th bgcolor="whitesmoke">間口</th>
+    <td><%= @land_percel.frontage %>m</td>
+  </tr>
+
+  <tr>
+    <th bgcolor="whitesmoke">土地形状</th>
+    <td><%= @land_percel.shape_i18n %></td>
+    <th bgcolor="whitesmoke">土地状況</th>
+    <td>
+      <% if @property.land_use == false %>更地
+      <% else %>古屋あり
+      <% end %>
+      <% if @land_percel.difference_elevation == false %>高低差なし
+      <% else %>高低差あり
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+
+
+<h5 class="mt-5 mb-3 ml-4">・プラン要望（依頼前にご入力ください、未入力の方は<%= link_to "こちら", edit_customer_path(current_customer.id)  %>）</h5>
+
+<table class="table table-bordered table-inverse ml-4 mb-5">
+  <tr>
+	  <th bgcolor="whitesmoke" class="align-middle" style="width: 180px;">入居予定人数</th>
+    <td class="align-middle" style="width: 180px;"><%= @customer.tenant_number %>人</td>
+    <th bgcolor="whitesmoke" class="align-middle" style="width: 180px;">入居者構成</th>
+    <td class="align-middle" style="width: 180px;"><%= @customer.tenant_member %></td>
+    <th bgcolor="whitesmoke" class="align-middle" style="width: 180px;">住居種類</th>
+    <td class="align-middle" style="width: 180px;"><%= @customer.house_type_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">総予算(土地代含む)</th>
+    <td class="align-middle"><%= @customer.total_budget %>万円</td>
+    <th bgcolor="whitesmoke" class="align-middle">建物階数</th>
+    <td class="align-middle"><%= @customer.number_floor %>階建て</td>
+    <th bgcolor="whitesmoke" class="align-middle">建物面積</th>
+    <td class="align-middle"><%= @customer.floor_area %>㎡</td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">部屋数</th>
+    <td class="align-middle"><%= @customer.number_room %></td>
+    <th bgcolor="whitesmoke" class="align-middle">LDK階数</th>
+    <td class="align-middle"><%= @customer.ldk_floor_number %></td>
+    <th bgcolor="whitesmoke" class="align-middle">LDK広さ</th>
+    <td class="align-middle"><%= @customer.ldk_area %>帖</td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">キッチンタイプ</th>
+    <td class="align-middle"><%= @customer.kitchen_type_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">MBr(主寝室)広さ</th>
+    <td class="align-middle"><%= @customer.mbr_area %>帖</td>
+    <th bgcolor="whitesmoke" class="align-middle">Br(洋室)広さ</th>
+    <td class="align-middle"><%= @customer.br_area %>帖</td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">浴室広さ</th>
+    <td class="align-middle"><%= @customer.bathroom_area_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">和室</th>
+    <td class="align-middle"><%= @customer.japanese_room_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">納戸</th>
+    <td class="align-middle"><%= @customer.storage_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">書斎</th>
+    <td class="align-middle"><%= @customer.den_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">書斎タイプ</th>
+    <td class="align-middle"><%= @customer.den_type_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">WIC(ウォークイン・クローゼット)</th>
+    <td class="align-middle"><%= @customer.wic_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">FC(ファミリークローク)</th>
+    <td class="align-middle"><%= @customer.family_closet_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">SIC(シューズイン・クローク)</th>
+    <td class="align-middle"><%= @customer.sic_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">パントリー</th>
+    <td class="align-middle"><%= @customer.pantry_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">ロフト</th>
+    <td class="align-middle"><%= @customer.loft_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">吹き抜け</th>
+    <td class="align-middle"><%= @customer.void_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">ランドリールーム</th>
+    <td class="align-middle"><%= @customer.laundry_room_i18n %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">庭</th>
+    <td class="align-middle"><%= @customer.garden_i18n %></td>
+    <th bgcolor="whitesmoke" class="align-middle">駐車予定台数</th>
+    <td class="align-middle"><%= @customer.parking_number %>台</td>
+    <th bgcolor="whitesmoke" class="align-middle">車種</th>
+    <td class="align-middle"><%= @customer.car_model %></td>
+	</tr>
+
+	<tr>
+	  <th bgcolor="whitesmoke" class="align-middle">駐輪予定台数</th>
+    <td class="align-middle"><%= @customer.bicycle_parking_number %>台</td>
+	</tr>
+
+	<tr>
+    <th bgcolor="whitesmoke" class="align-middle">その他要望詳細</th>
+    <td colspan="5" class="align-middle"><%= @customer.request_details %></td>
+	</tr>
+</table>
+
+
+<%= form_with model: @plan_order, url: plan_orders_path, method: :post, local: true do |f| %>
+
+  <h5 class="d-inline-block mt-4 mb-1 ml-4">・連絡希望日時（候補日時を3つご入力ください）</h5>
+  <div class="mb-3 ml-5">※プラン要望内容について確認したい項目があった場合など、より良いプラン作成のためにご連絡させていただく場合がございます。</div>
+  <div class="form-group row">
+    <div class="col-lg-1 d-flex align-items-center pr-0 ml-5"><%= f.label :contact_datetime_1, "候補日時１", class: "mb-0" %></div>
+    <div class="col-lg-2"><%= f.datetime_field :contact_datetime_1, class: "form-control" %></div>
+    <div class="col-lg-1 d-flex align-items-center pr-0 ml-5"><%= f.label :contact_datetime_2, "候補日時２", class: "mb-0" %></div>
+    <div class="col-lg-2"><%= f.datetime_field :contact_datetime_2, class: "form-control" %></div>
+    <div class="col-lg-1 d-flex align-items-center pr-0 ml-5"><%= f.label :contact_datetime_3, "候補日時３", class: "mb-0" %></div>
+    <div class="col-lg-2"><%= f.datetime_field :contact_datetime_3, class: "form-control" %></div>
+  </div>
+
+  <h5 class="mt-5 mb-1 ml-4"><%= f.label :remarks, "・備考欄" %></h5>
+  <div class="mb-3 ml-5">※プラン作成にあたっての注意事項や特別なご希望など、何かございましたらご記入ください。</div>
+  <div class="ml-5" style="width: 85%;"><%= f.text_area :remarks, class: "form-control", rows: "10" %></div>
+
+  <%= f.hidden_field :land_percel_id, value: @land_percel.id %>
+  <%= f.hidden_field :tenant_number_order, value: @customer.tenant_number %>
+  <%= f.hidden_field :tenant_member_order, value: @customer.tenant_member %>
+  <%= f.hidden_field :house_type_order, value: @customer.house_type %>
+  <%= f.hidden_field :total_budget_order, value: @customer.total_budget %>
+  <%= f.hidden_field :number_floor_order, value: @customer.number_floor %>
+  <%= f.hidden_field :floor_area_order, value: @customer.floor_area %>
+  <%= f.hidden_field :number_room_order, value: @customer.number_room %>
+  <%= f.hidden_field :ldk_floor_number_order, value: @customer.ldk_floor_number %>
+  <%= f.hidden_field :ldk_area_order, value: @customer.ldk_area %>
+  <%= f.hidden_field :kitchen_type_order, value: @customer.kitchen_type %>
+  <%= f.hidden_field :mbr_area_order, value: @customer.mbr_area %>
+  <%= f.hidden_field :br_area_order, value: @customer.br_area %>
+  <%= f.hidden_field :bathroom_area_order, value: @customer.bathroom_area %>
+  <%= f.hidden_field :japanese_room_order, value: @customer.japanese_room %>
+  <%= f.hidden_field :storage_order, value: @customer.storage %>
+  <%= f.hidden_field :den_order, value: @customer.den %>
+  <%= f.hidden_field :den_type_order, value: @customer.den_type %>
+  <%= f.hidden_field :wic_order, value: @customer.wic %>
+  <%= f.hidden_field :family_closet_order, value: @customer.family_closet %>
+  <%= f.hidden_field :sic_order, value: @customer.sic %>
+  <%= f.hidden_field :pantry_order, value: @customer.pantry %>
+  <%= f.hidden_field :loft_order, value: @customer.loft %>
+  <%= f.hidden_field :void_order, value: @customer.void %>
+  <%= f.hidden_field :laundry_room_order, value: @customer.laundry_room %>
+  <%= f.hidden_field :garden_order, value: @customer.garden %>
+  <%= f.hidden_field :parking_number_order, value: @customer.parking_number %>
+  <%= f.hidden_field :car_model_order, value: @customer.car_model %>
+  <%= f.hidden_field :bicycle_parking_number_order, value: @customer.bicycle_parking_number %>
+  <%= f.hidden_field :request_details_order, value: @customer.request_details %>
+
+
+  <div class="actions d-flex align-items-center justify-content-center my-5">
+    <%= f.submit '上記の内容でプラン作成を依頼する', class:"btn btn-success btn-lg px-0", style:"width: 35%;" %>
+  </div>
+
+<% end %>

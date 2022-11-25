@@ -21,7 +21,11 @@
 
   <tr>
     <th bgcolor="whitesmoke">物件名・区画名</th>
-    <td><%= link_to @property.name, property_path(@land_percel.property_id)  %>　<%= @land_percel.name %>区画</td>
+    <% if @land_percel.name.present? %>
+      <td><%= link_to @property.name, property_path(@land_percel.property_id)  %>　第<%= @land_percel.name %>区画</td>
+    <% else %>
+      <td><%= link_to @property.name, property_path(@land_percel.property_id)  %></td>
+    <% end %>
     <th bgcolor="whitesmoke">土地面積</th>
     <td><%= @land_percel.area %>㎡</td>
   </tr>

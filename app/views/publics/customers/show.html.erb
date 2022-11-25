@@ -169,7 +169,11 @@
         <tr>
           <td>
             <%= link_to(land_percel_path(plan_order.land_percel_id)) do %>
-              <%= plan_order.land_percel.property.name %>　<%= plan_order.land_percel.name %>区画
+              <% if plan_order.land_percel.name.present? %>
+                <%= plan_order.land_percel.property.name %>　第<%= plan_order.land_percel.name %>区画
+              <% else %>
+                <%= plan_order.land_percel.property.name %>
+              <% end %>
             <% end %>
           </td>
           <td><%= plan_order.land_percel.property.full_address_publics %></td>
