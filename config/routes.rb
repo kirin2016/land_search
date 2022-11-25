@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     end
     resources :land_percels, only: [:show]
     resources :plan_orders, only: [:show, :create]
+    get 'plan_orders/:id/registration' => 'plan_orders#registration', as: 'plan_orders/registration'
     resources :properties, only: [:index, :show] do
       collection do
         get :search
