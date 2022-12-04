@@ -1,4 +1,5 @@
 class Admins::LandPercelsController < ApplicationController
+  before_action :authenticate_admin!
 
   def show
     @land_percel = LandPercel.find(params[:id])
@@ -7,33 +8,37 @@ class Admins::LandPercelsController < ApplicationController
   end
 
   def registration
-    @property = Property.find(params[:id])
-    @images = @property.images
-    @land_percel = Form::LandPercelCollection.new
+    #@property = Property.find(params[:id])
+    #@images = @property.images
+    #@land_percel = Form::LandPercelCollection.new
+    @property = Property.new(property_params)
+    if @property.invalid?
+      flash.now[:warning] = '必要項目をすべて入力してください。'
+      render template: "admins/properties/new"
+    else
+      (3 - @property.land_percels.count).times { @property.land_percels.build }
+    end
+    byebug
   end
 
   def new_create
     @land_percel = Form::LandPercelCollection.new(land_percel_collection_params)
+    @property = Property.new(property_params)
+    property_params[:images_attributes].each do |k, v|
+      @property.images.build(image: v[:image_cache], explanation: v[:explanation])
+    end
     if @property.save
-      @land_percel.land_percels.each do |land_percel|
-        land_percel.property_id = @property.id
-        @area_tsubo = land_percel.area.to_f * 0.3025
-        land_percel.price_tsubo = (land_percel.price.to_f / @area_tsubo.to_f).round(0)
-        # land_percel.save
-      end
-      if @land_percel.save
+      if @land_percel.save(@property)
       flash[:notice] = '物件情報、土地情報を新規登録しました。'
       redirect_to admins_properties_path
       else
-
         @property = Property.new(form_property_params)
         flash.now[:danger] = 'エラーが発生し、土地情報を正しく登録できませんでした。'
         render :registration
       end
     else
-      @property = Property.new(form_property_params)
       flash.now[:danger] = '物件登録にエラーが発生し、登録できませんでした。'
-      render template: "properties/new"
+      render template: "admins/properties/new"
     end
   end
 
@@ -80,8 +85,8 @@ class Admins::LandPercelsController < ApplicationController
   private
 
 
-  def form_property_params
-    params.require(:form_land_percel_collection).require(:property).permit(
+  def property_params
+    params.require(:property).permit(
       :name,
       :postal_code,
       :prefecture_code,
@@ -103,19 +108,11 @@ class Admins::LandPercelsController < ApplicationController
       :real_estate_staff,
       :real_estate_telephone,
       :introduction,
-      images_attributes: [:image, :image_cache, :explanation])
+      images_attributes: [:id, :image, :image_cache, :explanation])
   end
-
-  def images_params
-    params.require(:images).permit(
-      :explanation,
-      image: [],
-      images_cache: [])
-  end
-
 
   def land_percel_collection_params
-        params.require(:form_land_percel_collection).permit(land_percels_attributes: [
+        params.require(:property).permit(land_percels_attributes: [
           :name,
           :price,
           :area,
@@ -151,6 +148,13 @@ class Admins::LandPercelsController < ApplicationController
           :reference_plan_id,
           :remove_reference_plan_id,
           :comment)
+  end
+
+  def images_params
+    params.require(:images).permit(
+      :explanation,
+      image: [],
+      images_cache: [])
   end
 
 end

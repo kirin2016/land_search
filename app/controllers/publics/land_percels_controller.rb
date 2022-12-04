@@ -1,4 +1,6 @@
 class Publics::LandPercelsController < ApplicationController
+  before_action :authenticate_customer!
+  
   def show
     @land_percel = LandPercel.find(params[:id])
     @property = @land_percel.property

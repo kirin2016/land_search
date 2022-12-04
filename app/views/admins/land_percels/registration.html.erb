@@ -1,18 +1,16 @@
 <h4>土地新規登録</h4>
 
-  <%= form_with model: @land_percel, url: new_create_admins_land_percels_path, method: :post, local: true do |form| %>
+  <%#= form_with model: @land_percel, url: new_create_admins_land_percels_path, method: :post, local: true do |form| %>
+  <%= form_with model: @property, url: new_create_admins_land_percels_path, method: :post, local: true do |f| %>
 
   <p class="font-weight-bold">物件写真の説明を入力（撮影箇所・方角など）</p>
 
-    <%= form.fields_for @images do |f| %>
-      <% if @images.present? %>
+    <%= f.fields_for :images do |i| %>
+      <% if i.object.image.present? %>
         <div class="d-flex flex-wrap">
-          <% @images.each do |image| %>
-            <div class="d-flex flex-column">
-              <%= image_tag image.image.to_s, size: '250x250', class: "mx-1 my-1" %>
-              <%#= f.text_field :explanation, class: "form-control mx-1 my-1", style: "width: 250px;" %>
-            </div>
-          <% end %>
+          <%= image_tag i.object.image.to_s, size: '210x210', class: "mx-1 my-1" %>
+          <%= i.text_field :explanation, class: "form-control mx-1 my-1", style: "width: 210px;" %>
+          <%= i.hidden_field :image_cache %>
         </div>
       <% else %>
         <%= image_tag 'no_image.png', size: '250x250' %>
@@ -39,19 +37,19 @@
     </thead>
 
     <tbody class="px-0">
-      <%= form.fields_for :land_percels do |f| %>
+      <%= f.fields_for :land_percels do |l| %>
         <tr>
-          <td><%= f.text_field :name, class: "form-control px-1" %></td>
-          <td><%= f.text_field :area, class: "form-control px-1" %></td>
-          <td><%= f.text_field :price, class: "form-control px-1" %></td>
-          <td><%= f.select :shape, LandPercel.shapes.keys.map {|k|[I18n.t("enums.land_percel.shape.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
-          <td><%= f.select :connecting_road_situation, LandPercel.connecting_road_situations.keys.map {|k|[I18n.t("enums.land_percel.connecting_road_situation.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
-          <td><%= f.text_field :main_road_width, class: "form-control px-1" %></td>
-          <td><%= f.select :main_road_direction, LandPercel.main_road_directions.keys.map {|k|[I18n.t("enums.land_percel.main_road_direction.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
-          <td><%= f.text_field :frontage, class: "form-control px-1" %></td>
-          <td><%= f.select :difference_elevation, {有: true, 無: false}, {}, class: "form-control px-1" %></td>
-          <td><%= f.select :private_road_burden, {有: true, 無: false}, {}, class: "form-control px-1" %></td>
-          <td><%= f.select :sale_status, LandPercel.sale_statuses.keys.map {|k|[I18n.t("enums.land_percel.sale_status.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
+          <td><%= l.text_field :name, class: "form-control px-1" %></td>
+          <td><%= l.text_field :area, class: "form-control px-1" %></td>
+          <td><%= l.text_field :price, class: "form-control px-1" %></td>
+          <td><%= l.select :shape, LandPercel.shapes.keys.map {|k|[I18n.t("enums.land_percel.shape.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
+          <td><%= l.select :connecting_road_situation, LandPercel.connecting_road_situations.keys.map {|k|[I18n.t("enums.land_percel.connecting_road_situation.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
+          <td><%= l.text_field :main_road_width, class: "form-control px-1" %></td>
+          <td><%= l.select :main_road_direction, LandPercel.main_road_directions.keys.map {|k|[I18n.t("enums.land_percel.main_road_direction.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
+          <td><%= l.text_field :frontage, class: "form-control px-1" %></td>
+          <td><%= l.select :difference_elevation, {有: true, 無: false}, {}, class: "form-control px-1" %></td>
+          <td><%= l.select :private_road_burden, {有: true, 無: false}, {}, class: "form-control px-1" %></td>
+          <td><%= l.select :sale_status, LandPercel.sale_statuses.keys.map {|k|[I18n.t("enums.land_percel.sale_status.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
         </tr>
       <% end %>
     </tbody>
@@ -59,7 +57,28 @@
 
 
   <div class="actions d-flex align-items-center justify-content-center my-5">
-    <%= form.submit '新規登録', class:"btn btn-success btn-lg px-0 w-25" %>
+    <%= f.hidden_field :name %>
+    <%= f.hidden_field :postal_code %>
+    <%= f.hidden_field :prefecture_code %>
+    <%= f.hidden_field :address_city %>
+    <%= f.hidden_field :address_town %>
+    <%= f.hidden_field :address_street %>
+    <%= f.hidden_field :nearest_railroad %>
+    <%= f.hidden_field :nearest_station %>
+    <%= f.hidden_field :transportation %>
+    <%= f.hidden_field :nearest_bus_stop %>
+    <%= f.hidden_field :walking_time %>
+    <%= f.hidden_field :bus_time %>
+    <%= f.hidden_field :bus_stop_walking_time %>
+    <%= f.hidden_field :car_time %>
+    <%= f.hidden_field :building_coverage_ratio %>
+    <%= f.hidden_field :floor_area_ratio %>
+    <%= f.hidden_field :land_use %>
+    <%= f.hidden_field :real_estate_name %>
+    <%= f.hidden_field :real_estate_staff %>
+    <%= f.hidden_field :real_estate_telephone %>
+    <%= f.hidden_field :introduction %>
+    <%= f.submit '新規登録', class:"btn btn-success btn-lg px-0 w-25" %>
   </div>
 
   <% end %>

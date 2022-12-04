@@ -1,4 +1,5 @@
 class Publics::PlanOrdersController < ApplicationController
+  before_action :authenticate_customer!
 
   def show
     @plan_order = PlanOrder.find(params[:id])

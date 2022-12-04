@@ -1,4 +1,6 @@
 class Admins::PlanOrdersController < ApplicationController
+  before_action :authenticate_admin!
+
   def index
     @plan_orders = PlanOrder.all
   end

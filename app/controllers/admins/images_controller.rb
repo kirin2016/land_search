@@ -1,4 +1,6 @@
 class Admins::ImagesController < ApplicationController
+  before_action :authenticate_admin!
+  
   def create
     @property = Property.find(image_params[:property_id])
     @image = Image.new(image_params)

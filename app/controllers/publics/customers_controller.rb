@@ -1,4 +1,6 @@
 class Publics::CustomersController < ApplicationController
+  before_action :authenticate_customer!
+  
   def show
     @customer = Customer.find(params[:id])
     @plan_orders = @customer.plan_orders

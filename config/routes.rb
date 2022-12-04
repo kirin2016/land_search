@@ -1,15 +1,6 @@
 Rails.application.routes.draw do
 
-  namespace :admins do
-    get 'images/create'
-    get 'images/destroy'
-  end
-  namespace :admin do
-    get 'images/create'
-    get 'images/destroy'
-  end
-  get 'images/create'
-  get 'images/destroy'
+
   devise_for :customers, controllers: {
     sessions: 'publics/devises/sessions',
     passwords: 'publics/devises/passwords',
@@ -41,12 +32,13 @@ Rails.application.routes.draw do
     get "/" => "properties#index"
     resources :customers, only: [:index, :show, :edit, :update]
     resources :images, only: [:create, :destroy]
-    resources :land_percels, only: [:show, :new, :create, :edit, :update, :destroy] do
+    resources :land_percels, only: [:show, :create, :edit, :update, :destroy] do
       collection do
         post :new_create
+        post :registration
       end
     end
-    get 'land_percels/:id/registration' => 'land_percels#registration', as: 'land_percels/registration'
+    #get 'land_percels/:id/registration' => 'land_percels#registration', as: 'land_percels/registration'
     resources :plan_orders, only: [:index, :show, :update]
     resources :properties do
       collection do

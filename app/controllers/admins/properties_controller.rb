@@ -1,4 +1,6 @@
 class Admins::PropertiesController < ApplicationController
+  before_action :authenticate_admin!
+
   def index
     @properties = Property.all
   end
@@ -15,7 +17,6 @@ class Admins::PropertiesController < ApplicationController
   def new
     @property = Property.new
     @property.images.build
-    @land_percel = Form::LandPercelCollection.new
   end
 
   def create
