@@ -15,9 +15,12 @@ class Property < ApplicationRecord
   validates :real_estate_name, presence: true
   validates :real_estate_telephone, presence: true
 
+  # validates :land_percels, presence: true
+  validates :images, presence: true
+
   has_many :land_percels, dependent: :destroy
   has_many :images, dependent: :destroy
-  accepts_nested_attributes_for :images
+  accepts_nested_attributes_for :images, allow_destroy: true
 
 
 

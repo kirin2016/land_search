@@ -64,6 +64,19 @@
     </td>
   </tr>
 
+  <tr>
+    <th bgcolor="whitesmoke">販売状況</th>
+    <% if @land_percel.sale_status = 'on_sale' %>
+      <td class="text-success font-weight-bold"><%= @land_percel.sale_status_i18n %></td>
+		<% elsif @land_percel.sale_status = 'sales_pending' %>
+		  <td class="text-warning font-weight-bold"><%= @land_percel.sale_status_i18n %></td>
+		<% else %>
+		  <td class="text-muted font-weight-bold"><%= @land_percel.sale_status_i18n %></td>
+		<% end %>
+		<th bgcolor="whitesmoke">プラン依頼申込数</th>
+    <td><%= @plan_orders.count %>件</td>
+  </tr>
+
 </table>
 
 
@@ -84,5 +97,9 @@
 
 
 <div class="d-flex justify-content-center my-5">
-  <%= link_to 'この土地でプラン作成を依頼する', plan_orders_registration_path(@land_percel.id), class:"btn btn-lg btn-success px-0 m-3", style:"width: 35%;" %>
+  <% if @plan_order.present? %>
+    <%= link_to 'プラン依頼状況を確認する', plan_order_path(@plan_order.first.id), class:"btn btn-lg btn-primary px-0 m-3", style:"width: 35%;" %>
+  <% else %>
+    <%= link_to 'この土地でプラン作成を依頼する', plan_orders_registration_path(@land_percel.id), class:"btn btn-lg btn-success px-0 m-3", style:"width: 35%;" %>
+  <% end %>
 </div>

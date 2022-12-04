@@ -291,6 +291,7 @@ ja:
         confirming: '内容確認中'
         planning: 'プラン作成中'
         completion: '完了'
+        stop_planning: 'プラン作成不可'
 
       house_type_order:
         single_family_home: '単世帯住宅'
@@ -344,7 +345,7 @@ ja:
         needless: '無くて良い'
 
       pantry_order:
-        need: '必須'
+        want: '必須'
         if_have_room: '可能なら'
         needless: '無くて良い'
 

@@ -66,6 +66,19 @@
       <% end %>
     </td>
   </tr>
+
+  <tr>
+    <th bgcolor="whitesmoke">販売状況</th>
+    <% if @land_percel.sale_status = 'on_sale' %>
+      <td class="text-success font-weight-bold"><%= @land_percel.sale_status_i18n %></td>
+		<% elsif @land_percel.sale_status = 'sales_pending' %>
+		  <td class="text-warning font-weight-bold"><%= @land_percel.sale_status_i18n %></td>
+		<% else %>
+		  <td class="text-muted font-weight-bold"><%= @land_percel.sale_status_i18n %></td>
+		<% end %>
+		<th bgcolor="whitesmoke">プラン依頼申込数</th>
+    <td><%= @plan_orders.count %>件</td>
+  </tr>
 </table>
 
 

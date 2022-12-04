@@ -1,0 +1,18 @@
+<div>
+  <h2 class="text-center my-5">本当に退会しますか？</h2>
+  <div class="text-center">
+    退会すると、会員登録情報や<br>
+    これまでのプラン作成依頼履歴などが閲覧できなくなります。<br>
+    退会する場合は、「退会する」をクリックしてください。
+  </div>
+
+  <div class="actions d-flex justify-content-center my-5">
+    <div class="text-center" style="width: 200px;">
+      <%= link_to '退会しない', customer_path(current_customer.id), class:"btn btn-primary px-0 w-75" %>
+    </div>
+    <div class="text-center" style="width: 200px;">
+      <%= link_to "退会する", withdrawal_path(current_customer.id), "data-confirm" => "本当に退会しますか？",class:"btn btn-danger px-0 w-75", method: :patch %>
+    </div>
+  </div>
+
+</div>

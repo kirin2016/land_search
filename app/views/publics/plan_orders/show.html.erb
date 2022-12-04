@@ -1,4 +1,157 @@
-<h5 class="mt-5 mb-3 ml-4">依頼されたプラン要望</h5>
+<h4>プラン作成依頼詳細</h4>
+
+<div class="form-group row my-4 ml-4">
+  <div class="col-lg-1"></div>
+  <h3 class="col-lg-3">依頼ステータス：</h3>
+  <% if @plan_order.order_status == 'confirming' %>
+    <h3 class="col-lg-3 text-info font-weight-bold"><%= @plan_order.order_status_i18n %></h3>
+  <% elsif @plan_order.order_status == 'planning' %>
+    <h3 class="col-lg-3 text-secondary font-weight-bold"><%= @plan_order.order_status_i18n %></h3>
+  <% elsif @plan_order.order_status == 'completion' %>
+    <h3 class="col-lg-3 text-success font-weight-bold"><%= @plan_order.order_status_i18n %></h3>
+  <% else %>
+    <h3 class="col-lg-3 text-danger font-weight-bold"><%= @plan_order.order_status_i18n %></h3>
+  <% end %>
+</div>
+
+<div class="d-flex justify-content-center">
+  <h5 class="box text-center mb-5" style="width: 80%; line-height:2.5rem">
+
+    <% if @plan_order.order_status == 'confirming' %>
+      この度はプラン作成をご依頼いただきありがとうございます。</br>
+      現在ご要望内容を確認しておりますので、今しばらくお待ちください。</br>
+      また、必須確認事項があった際は、頂いた連絡希望日時に下記担当の者から</br>
+      ご連絡いたしまして、確認後にプラン作成が開始されます、ご了承ください。</br>
+      こちら一度ご依頼いただいた内容は変更できないようになっております。</br>
+      もし下記依頼内容を修正・補足したい場合は、</br>
+      お手数ですが下記連絡先にまでご連絡くださいませ。</br>
+
+    <% elsif @plan_order.order_status == 'planning' %>
+      この度はプラン作成をご依頼いただきありがとうございます。</br>
+      現在プラン作成中です、今しばらくお待ちください。</br>
+      完成した際は、下記担当の者からご連絡いたしますので、ご対応くださいませ。</br>
+      一般的には作成開始から、１～２週間程度での完成となります。</br>
+      万が一２週間以上経っても作成中の状態でしたら、</br>
+      お手数おかけして大変申し訳ございませんが、一度下記連絡先にまでご連絡ください。</br>
+
+    <% elsif @plan_order.order_status == 'completion' %>
+      この度はプラン作成をご依頼いただきありがとうございました。</br>
+      こちらのプラン作成は完了しております。</br>
+      万が一担当の者から連絡が来ないようでしたら</br>
+      お手数おかけして大変申し訳ございませんが、一度下記連絡先にまでご連絡ください。</br>
+      また、同じ土地に対してプラン依頼は１度のみとなっておりますので、</br>
+      別タイプのプランが見たいなどございましたら、直接担当の者とご相談くださいませ。</br>
+
+    <% else %>
+      誠に申し訳ございませんが、プラン作成ができません。</br>
+      状況・理由のご確認は、お手数ですが下記連絡先にまでご連絡ください。</br>
+
+    <% end %>
+    </br>
+    <% if current_customer.sale_staff.present? %>
+      営業担当：<%= @customer.sale_staff %>　連絡先：<%= @customer.sale_staff_telephone %>
+    <% else %>
+      連絡先：0120-000-000
+    <% end %>
+
+  </h5>
+</div>
+
+<h5 class="my-4 ml-4">・連絡希望日時、備考</h5>
+<div class="form-group row">
+  <div class="col-lg-1 d-flex align-items-center pr-0 ml-5 font-weight-bold">候補日時１</div>
+  <div class="col-lg-2 d-flex align-items-center"><%= @plan_order.contact_datetime_1.strftime('%Y/%m/%d %H:%M') %></div>
+  <div class="col-lg-1 d-flex align-items-center pr-0 ml-5 font-weight-bold">候補日時２</div>
+  <div class="col-lg-2 d-flex align-items-center"><%= @plan_order.contact_datetime_2.strftime('%Y/%m/%d %H:%M') %></div>
+  <div class="col-lg-1 d-flex align-items-center pr-0 ml-5 font-weight-bold">候補日時３</div>
+  <div class="col-lg-2 d-flex align-items-center"><%= @plan_order.contact_datetime_3.strftime('%Y/%m/%d %H:%M') %></div>
+</div>
+
+<div class="form-group row">
+  <div class="col-lg-1 d-flex align-items-center pr-0 ml-5 font-weight-bold">備考</div>
+  <div class="col-lg-10 d-flex align-items-center"><%= @plan_order.remarks %></div>
+</div>
+
+
+<h5 class="mt-5 mb-3 ml-4">・プラン依頼した土地情報</h5>
+
+<table class="table table-bordered table-inverse ml-4">
+  <tr>
+    <th bgcolor="whitesmoke">住所</th>
+    <td><%= @land_percel.property.full_address_publics %></td>
+    <th bgcolor="whitesmoke">交通</th>
+    <td>
+      <%= @property.nearest_railroad %>「<%= @property.nearest_station %>」
+      <% if @property.transportation == 'walking' %>
+        徒歩<%= @property.walking_time %>分
+      <% elsif @property.transportation == 'bus' %>
+        バス<%= @property.bus_time %>分　停歩<%= @property.walking_time %>分
+      <% else %>
+        車<%= @property.car_time %>分
+      <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <th bgcolor="whitesmoke">物件名・区画名</th>
+    <% if @land_percel.name.present? %>
+      <td><%= link_to @property.name, property_path(@property.id)  %>　第<%= @land_percel.name %>区画</td>
+    <% else %>
+      <td><%= link_to @property.name, property_path(@property.id)  %></td>
+    <% end %>
+    <th bgcolor="whitesmoke">土地面積</th>
+    <td><%= @land_percel.area %>㎡</td>
+  </tr>
+
+  <tr>
+    <th bgcolor="whitesmoke">価格</th>
+    <td><%= @land_percel.price %>万円（坪<%= @land_percel.price_tsubo %>万円）</td>
+    <th bgcolor="whitesmoke">建ぺい率/容積率</th>
+    <td><%= @property.building_coverage_ratio %>%/<%= @property.floor_area_ratio %>%</td>
+  </tr>
+
+  <tr>
+    <th bgcolor="whitesmoke">道路状況</th>
+    <td>
+      <%= @land_percel.connecting_road_situation_i18n %></br>
+      幅<%= @land_percel.main_road_width %>m<%= @land_percel.main_road_direction_i18n %>道路
+      <% if @land_percel.difference_elevation == false %>私道負担なし
+      <% else %>私道負担あり
+      <% end %>
+    </td>
+    <th bgcolor="whitesmoke">間口</th>
+    <td><%= @land_percel.frontage %>m</td>
+  </tr>
+
+  <tr>
+    <th bgcolor="whitesmoke">土地形状</th>
+    <td><%= @land_percel.shape_i18n %></td>
+    <th bgcolor="whitesmoke">土地状況</th>
+    <td>
+      <% if @property.land_use == false %>更地
+      <% else %>古屋あり
+      <% end %>
+      <% if @land_percel.difference_elevation == false %>高低差なし
+      <% else %>高低差あり
+      <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <th bgcolor="whitesmoke">販売状況</th>
+    <% if @land_percel.sale_status = 'on_sale' %>
+      <td class="text-success font-weight-bold"><%= @land_percel.sale_status_i18n %></td>
+		<% elsif @land_percel.sale_status = 'sales_pending' %>
+		  <td class="text-warning font-weight-bold"><%= @land_percel.sale_status_i18n %></td>
+		<% else %>
+		  <td class="text-muted font-weight-bold"><%= @land_percel.sale_status_i18n %></td>
+		<% end %>
+		<th bgcolor="whitesmoke">プラン依頼申込数</th>
+    <td><%= @plan_orders.count %>件</td>
+  </tr>
+</table>
+
+<h5 class="mt-5 mb-3 ml-4">・依頼されたプラン要望</h5>
 
 <table class="table table-bordered table-inverse  ml-4 mb-5">
   <tr>

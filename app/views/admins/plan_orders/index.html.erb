@@ -3,11 +3,11 @@
 <table class="table table-hover table-inverse my-4">
   <thead>
     <tr>
-      <th>プラン依頼ID</th>
-      <th>依頼日時</th>
-      <th>会員名</th>
-      <th>営業担当</th>
-      <th>依頼ステータス</th>
+      <th class="align-middle text-center">プラン依頼ID</th>
+      <th class="align-middle text-center">依頼日時</th>
+      <th class="align-middle text-center">会員名</th>
+      <th class="align-middle text-center">営業担当</th>
+      <th class="align-middle text-center">依頼ステータス</th>
       <th></th>
     </tr>
   </thead>
@@ -15,16 +15,24 @@
   <tbody>
     <% @plan_orders.each do |plan_order| %>
       <tr>
-        <td><%= plan_order.id  %></td>
-        <td><%= plan_order.created_at.strftime('%Y/%m/%d') %></td>
-        <td>
+        <td class="align-middle text-center"><%= plan_order.id  %></td>
+        <td class="align-middle text-center"><%= plan_order.created_at.strftime('%Y/%m/%d') %></td>
+        <td class="align-middle text-center">
           <%= link_to(admins_customer_path(plan_order.customer_id)) do %>
             <%= plan_order.customer.last_name %>　<%= plan_order.customer.first_name %>
           <% end %>
         </td>
-        <td><%= plan_order.customer.sale_staff %></td>
-        <td><%= plan_order.order_status_i18n %></td>
-        <td><%= link_to '依頼詳細', admins_plan_order_path(plan_order.id) %></td>
+        <td class="align-middle text-center"><%= plan_order.customer.sale_staff %></td>
+        <% if plan_order.order_status == 'confirming' %>
+          <td class="align-middle text-center text-info font-weight-bold"><%= plan_order.order_status_i18n %></td>
+        <% elsif plan_order.order_status == 'planning' %>
+          <td class="align-middle text-center text-secondary font-weight-bold"><%= plan_order.order_status_i18n %></td>
+        <% elsif plan_order.order_status == 'completion' %>
+          <td class="align-middle text-center text-success font-weight-bold"><%= plan_order.order_status_i18n %></td>
+        <% else %>
+          <td class="align-middle text-center text-danger font-weight-bold"><%= plan_order.order_status_i18n %></td>
+        <% end %>
+        <td class="align-middle text-center"><%= link_to '依頼詳細', admins_plan_order_path(plan_order.id), class:"btn btn-sm btn-primary px-0 w-75" %></td>
       </tr>
     <% end %>
   </tbody>

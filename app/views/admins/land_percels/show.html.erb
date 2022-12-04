@@ -67,6 +67,19 @@
     <td><%= @property.real_estate_staff %>　TEL：<%= @property.real_estate_telephone %></td>
   </tr>
 
+  <tr>
+    <th bgcolor="whitesmoke">販売状況</th>
+    <% if @land_percel.sale_status == 'on_sale' %>
+      <td class="text-success font-weight-bold"><%= @land_percel.sale_status_i18n %></td>
+		<% elsif @land_percel.sale_status == 'sales_pending' %>
+		  <td class="text-warning font-weight-bold"><%= @land_percel.sale_status_i18n %></td>
+		<% else %>
+		  <td class="text-muted font-weight-bold"><%= @land_percel.sale_status_i18n %></td>
+		<% end %>
+		<th bgcolor="whitesmoke">プラン依頼申込数</th>
+    <td><%= @plan_orders.count %>件</td>
+  </tr>
+
 </table>
 
 
@@ -82,21 +95,21 @@
 
 <h5 class="mt-5 mb-3 font-weight-bold">コメント</h5>
 <% if @land_percel.comment.present? %>
-  <div class="ml-5"<%= @land_percel.comment %></div>
+  <h5 class="ml-5 mb-5"><%= @land_percel.comment %></h5>
 <% else %>
-  <div class="d-flex justify-content-center">コメントが登録されていません</div>
+  <h5 class="d-flex justify-content-center mb-5">コメントが登録されていません</h5>
 <% end %>
 
 
-<h4>プラン作成依頼一覧</h4>
+<h4 class="mt-5">プラン作成依頼一覧</h4>
 <% if @plan_orders.present? %>
   <table class="table table-hover table-inverse my-4">
     <thead>
       <tr>
-        <th>依頼日時</th>
-        <th>会員名</th>
-        <th>営業担当</th>
-        <th>依頼ステータス</th>
+        <th class="align-middle text-center">依頼日時</th>
+        <th class="align-middle text-center">会員名</th>
+        <th class="align-middle text-center">営業担当</th>
+        <th class="align-middle text-center">依頼ステータス</th>
         <th></th>
       </tr>
     </thead>
@@ -104,15 +117,15 @@
     <tbody>
       <% @plan_orders.each do |plan_order| %>
         <tr>
-          <td><%= plan_order.created_at.strftime('%Y/%m/%d') %></td>
-          <td>
+          <td class="align-middle text-center"><%= plan_order.created_at.strftime('%Y/%m/%d') %></td>
+          <td class="align-middle text-center">
             <%= link_to(admins_customer_path(plan_order.customer_id)) do %>
               <%= plan_order.customer.last_name %>　<%= plan_order.customer.first_name %>
             <% end %>
           </td>
-          <td><%= plan_order.customer.sale_staff %></td>
-          <td><%= plan_order.order_status_i18n %></td>
-          <td><%= link_to '依頼詳細', admins_plan_order_path(plan_order.id), class:"btn btn-sm btn-primary px-0 w-75" %></td>
+          <td class="align-middle text-center"><%= plan_order.customer.sale_staff %></td>
+          <td class="align-middle text-center"><%= plan_order.order_status_i18n %></td>
+          <td class="align-middle text-center"><%= link_to '依頼詳細', admins_plan_order_path(plan_order.id), class:"btn btn-sm btn-primary px-0 w-75" %></td>
         </tr>
       <% end %>
     </tbody>

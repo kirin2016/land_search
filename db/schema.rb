@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 2022_11_13_194059) do
     t.float "frontage", null: false
     t.boolean "difference_elevation", default: false, null: false
     t.boolean "private_road_burden", default: false, null: false
-    t.integer "sale_status", limit: 1, default: 0, null: false
+    t.integer "sale_status", limit: 1, null: false
     t.string "reference_plan_id"
     t.text "comment"
     t.datetime "created_at", precision: 6, null: false

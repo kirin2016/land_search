@@ -3,28 +3,29 @@
 <table class="table table-hover table-inverse my-4">
   <thead>
     <tr>
-      <th>会員ID</th>
-      <th>氏名</th>
-      <th>プラン依頼数</th>
-      <th>営業担当</th>
-      <th>会員ステータス</th>
+      <th class="align-middle text-center">会員ID</th>
+      <th class="align-middle text-center">氏名</th>
+      <th class="align-middle text-center">プラン依頼数</th>
+      <th class="align-middle text-center">営業担当</th>
+      <th class="align-middle text-center">会員ステータス</th>
     </tr>
   </thead>
 
   <tbody>
     <% @customers.each do |customer| %>
       <tr>
-        <td><%= customer.id  %></td>
-        <td>
+        <td class="align-middle text-center"><%= customer.id  %></td>
+        <td class="align-middle text-center">
           <%= link_to(admins_customer_path(customer.id)) do %>
             <%= customer.last_name %>　<%= customer.first_name %>
           <% end %>
         </td>
-        <td><%= customer.sale_staff %></td>
+        <td class="align-middle text-center"><%= customer.plan_orders.count %></td>
+        <td class="align-middle text-center"><%= customer.sale_staff %></td>
         <% if customer.is_deleted == false %>
-          <td class="text-success font-weight-bold">有効</td>
+          <td class="align-middle text-center text-success font-weight-bold">有効</td>
 		    <% elsif customer.is_deleted == true %>
-		      <td class="text-muted font-weight-bold">退会</td>
+		      <td class="align-middle text-center text-muted font-weight-bold">退会</td>
 		    <% end %>
       </tr>
     <% end %>

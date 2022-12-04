@@ -2,19 +2,33 @@ class Publics::PlanOrdersController < ApplicationController
 
   def show
     @plan_order = PlanOrder.find(params[:id])
+    @land_percel = @plan_order.land_percel
+    @property = @land_percel.property
+    @plan_orders = @land_percel.plan_orders
+    @customer = @plan_order.customer
   end
 
   def registration
     @customer = Customer.find(current_customer.id)
     @land_percel = LandPercel.find(params[:id])
     @property = @land_percel.property
+    @plan_orders = @land_percel.plan_orders
     @plan_order = PlanOrder.new
+    @check = current_customer.plan_orders.where(land_percel_id: params[:id])
+    if @check.count >= 1
+      flash[:danger] = '１つの土地に対してプラン依頼は１度までです。'
+      redirect_to plan_order_path(@check.first.id)
+    end
   end
 
   def create
     @plan_order = PlanOrder.new(plan_order_params)
     @plan_order.customer_id = current_customer.id
-    if @plan_order.save
+    @check = current_customer.plan_orders.where(land_percel_id: params[:id])
+    if @check.count >= 1
+      flash[:danger] = '１つの土地に対してプラン依頼は１度までです。'
+      redirect_to plan_order_path(@check.first.id)
+    elsif @plan_order.save
       flash[:success] = "プラン作成依頼を受け付けました。"
       redirect_to plan_order_path(@plan_order.id)
     else

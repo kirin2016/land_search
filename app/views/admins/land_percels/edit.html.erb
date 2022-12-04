@@ -1,2 +1,62 @@
-<h1>Admin::LandPercels#edit</h1>
-<p>Find me in app/views/admin/land_percels/edit.html.erb</p>
+<h4>土地情報編集</h4>
+
+
+<%= form_with model: @land_percel, url: admins_land_percel_path(@land_percel.id), method: :patch, local: true do |f| %>
+  <div class="mx-auto" style="width: 60%;"><%= render 'layouts/error_messages', model: f.object %></div>
+
+  <table class="table table-hover">
+    <thead class="text-center bg-white">
+      <tr>
+        <th style="width: 80px;">区画名</th>
+        <th style="width: 100px;">面積(㎡)</th>
+        <th style="width: 100px;">価格(万円)</th>
+        <th style="width: 135px;">土地形状</th>
+        <th style="width: 135px;">接道状況</th>
+        <th style="width: 90px;">主要道路幅(m)</th>
+        <th style="width: 90px;">主要道路方角</th>
+        <th style="width: 80px;">間口(m)</th>
+        <th style="width: 90px;">高低差</th>
+        <th style="width: 90px;">私道持分</th>
+        <th style="width: 110px;">販売状況</th>
+      </tr>
+    </thead>
+
+    <tbody class="px-0">
+      <tr>
+        <td><%= f.text_field :name, class: "form-control px-1" %></td>
+        <td><%= f.text_field :area, class: "form-control px-1" %></td>
+        <td><%= f.text_field :price, class: "form-control px-1" %></td>
+        <td><%= f.select :shape, LandPercel.shapes.keys.map {|k|[I18n.t("enums.land_percel.shape.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
+        <td><%= f.select :connecting_road_situation, LandPercel.connecting_road_situations.keys.map {|k|[I18n.t("enums.land_percel.connecting_road_situation.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
+        <td><%= f.text_field :main_road_width, class: "form-control px-1" %></td>
+        <td><%= f.select :main_road_direction, LandPercel.main_road_directions.keys.map {|k|[I18n.t("enums.land_percel.main_road_direction.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
+        <td><%= f.text_field :frontage, class: "form-control px-1" %></td>
+        <td><%= f.select :difference_elevation, {有: true, 無: false}, {}, class: "form-control px-1" %></td>
+        <td><%= f.select :private_road_burden, {有: true, 無: false}, {}, class: "form-control px-1" %></td>
+        <td><%= f.select :sale_status, LandPercel.sale_statuses.keys.map {|k|[I18n.t("enums.land_percel.sale_status.#{k}"), k]}, {}, {class: "form-control px-1"} %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h5 class="mt-5 font-weight-bold">参考プラン</h5>
+  <h5 class="ml-5 my-3">登録中のプラン</h5>
+  <% if @land_percel.reference_plan_id.present? %>
+    <div class="background">
+      <div class="slider"><%= image_tag @land_percel.reference_plan_id.to_s, class: "mx-1 my-1" %></div>
+    </div>
+    <div class="d-flex justify-content-center"><%= f.check_box :remove_reference_plan_id %>　登録中のプランを削除する</div>
+  <% else %>
+    <div class="d-flex justify-content-center">参考プランが登録されていません</div>
+  <% end %>
+  <h5 class="ml-5 mt-5 mb-3">新規登録するプラン</h5>
+  <div class="ml-5"><%= f.file_field :reference_plan_id %></div>
+
+
+  <h5 class="mt-5 mb-3 font-weight-bold">コメント</h5>
+  <h5 class="ml-5 mb-5"><%= f.text_area :comment, class: "form-control px-1" %></h5>
+
+  <div class="d-flex justify-content-center my-5">
+    <%= f.submit '変更する', class:"btn btn-success px-0", style:"width: 150px;" %></div>
+  </div>
+
+<% end %>

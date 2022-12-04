@@ -6,12 +6,16 @@
   <% if @property.images.present? %>
     <div class="slider">
       <% @property.images.each do |image| %>
-        <%= image_tag image.image.to_s, class: "mx-1 my-1" %>
-        <%= image.explanation %>
+        <div class="slick-inner">
+          <%= image_tag image.image.to_s, class: "mx-1 my-1" %>
+          <div class="slider-text text-center"><%= image.explanation %></div>
+        </div>
       <% end %>
     </div>
   <% else %>
-    <%= image_tag 'no_image.png', size: '250x250' %>
+    <div class="d-flex justify-content-center p-3">
+      <%= image_tag 'no_image.png', size: '250x250' %>
+    </div>
   <% end %>
 </div>
 
@@ -80,13 +84,6 @@
     <% else %>
       <td><%= @land_percels.where(sale_status: ['on_sale', 'sales_pending']).minimum(:frontage) %>～<%= @land_percels.where(sale_status: ['on_sale', 'sales_pending']).maximum(:frontage) %>m</td>
     <% end %>
-  </tr>
-
-  <tr>
-    <th bgcolor="whitesmoke">不動産名</th>
-    <td><%= @property.real_estate_name %></td>
-    <th bgcolor="whitesmoke">担当者・連絡先</th>
-    <td><%= @property.real_estate_staff %>　TEL：<%= @property.real_estate_telephone %></td>
   </tr>
 
 </table>

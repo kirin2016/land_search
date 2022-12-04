@@ -1,2 +1,163 @@
-<h1>Admin::Properties#edit</h1>
-<p>Find me in app/views/admin/properties/edit.html.erb</p>
+<script type="text/javascript" src="//jpostal-1006.appspot.com/jquery.jpostal.js"></script>
+
+<h4>物件情報編集</h4>
+
+<div class="field">
+
+  <%= form_with model: @image, url: admins_images_path, method: :post, local: true do |i| %>
+    <%= i.hidden_field :property_id, value: @property.id %>
+    <div class="form-group row">
+      <div class="col-lg-2 px-0 pt-2">物件資料</div>
+      <div class="col-lg-1 d-flex align-items-center justify-content-end px-0">(新規追加)</div>
+      <div class="col-lg-4 d-flex align-items-center"><%= i.file_field :image %></div>
+      <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= i.label :explanation, "説明文:", class:"mb-0" %></div>
+      <div class="col-lg-3 pl-0"><%= i.text_field :explanation, class: "form-control mx-1 my-1", style: "width: 210px;" %></div>
+      <div class="col-lg-1 actions d-flex align-items-center px-0"><%= i.submit '追加', class:"btn btn-success px-0 mt-1 w-100" %></div>
+    </div>
+  <% end %>
+
+
+  <%= form_with model: @property, url: admins_property_path(@property.id), method: :patch, local: true do |f| %>
+
+    <div class="form-group row">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 d-flex justify-content-end px-0 pt-1">(登録済の写真)</div>
+      <% if @images.present? %>
+        <div class="col-lg-9 d-flex flex-wrap">
+          <%= f.fields_for :images do |i| %>
+            <div class="d-flex flex-column">
+              <%= image_tag i.object.image.to_s, size: '210x210', class: "mx-1 my-1" if i.object.image? %>
+              <%= i.text_field :explanation, class: "form-control mx-1 my-1", style: "width: 210px;" %>
+              <%= link_to "削除する", admins_image_path(i.object.id), method: :delete, class:"btn btn-danger mx-auto w-75" %>
+              <%= i.hidden_field :image, name: "images[image][]" %>
+              <%= i.hidden_field :image_cache, name: "images[image_cache][]" %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <%= image_tag 'no_image.png', size: '250x250' %>
+      <% end %>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-3 d-flex align-items-end px-0"><%= f.label :name, "物件名" %></div>
+      <div class="col-lg-7"><%= f.text_field :name, class: "form-control" %></div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-3 d-flex align-items-end px-0"><%= f.label :postal_code, "郵便番号" %></div>
+      <div class="col-lg-3"><%= f.text_field :postal_code, class: "form-control" %></div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-2 d-flex align-items-end px-0"><%= f.label :prefecture_code, "住所" %></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :prefecture_code, "(都道府県)" %></div>
+      <div class="col-lg-3"><%= f.collection_select :prefecture_code, JpPrefecture::Prefecture.all, :code, :name, {}, {class: "form-control"} %></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :address_city, "(市区町村)" %></div>
+      <div class="col-lg-3"><%= f.text_field :address_city, class: "form-control" %></div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :address_town, "(町域)" %></div>
+      <div class="col-lg-3"><%= f.text_field :address_town, class: "form-control" %></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :address_street, "(番地)" %></div>
+      <div class="col-lg-3"><%= f.text_field :address_street, class: "form-control" %></div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-2 d-flex align-items-end px-0"><%= f.label :nearest_railroad, "最寄り駅" %></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :nearest_railroad, "(沿線名)" %></div>
+      <div class="col-lg-3"><%= f.text_field :nearest_railroad, class: "form-control" %></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :nearest_station, "(駅名)" %></div>
+      <div class="col-lg-3"><%= f.text_field :nearest_station, class: "form-control" %></div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :transportation_walking, "(交通)" %></div>
+      <div class="col-lg-3 d-flex">
+        <%= f.radio_button :transportation, :walking, class: "ml-3" %>
+        <%= f.label :transportation_walking, Property.transportations_i18n[:walking], class: "d-flex align-items-end ml-2", style: "width: 40px;" %>
+        <%= f.text_field :walking_time, class: "form-control ml-4", style: "width: 60px;" %>
+        <%= f.label :walking_time, "分", class: "d-flex align-items-end ml-1" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-3"></div>
+      <div class="col-lg-3 d-flex">
+        <%= f.radio_button :transportation, :bus, class: "ml-3" %>
+        <%= f.label :transportation_bus, Property.transportations_i18n[:bus], class: "d-flex align-items-end ml-2", style: "width: 40px;" %>
+        <%= f.text_field :bus_time, class: "form-control ml-4", style: "width: 60px;" %>
+        <%= f.label :bus_time, "分", class: "d-flex align-items-end ml-1" %>
+      </div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :nearest_bus_stop, "(バス停名)" %></div>
+      <div class="col-lg-3"><%= f.text_field :nearest_bus_stop, class: "form-control" %></div>
+      <div class="col-lg-2 d-flex px-0">
+        <%= f.label :bus_stop_walking_time, "徒歩", class: "d-flex align-items-end justify-content-end", style: "width: 40px;" %>
+        <%= f.text_field :bus_stop_walking_time, class: "form-control ml-2", style: "width: 60px;" %>
+        <%= f.label :bus_stop_walking_time, "分", class: "d-flex align-items-end ml-1" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-3"></div>
+      <div class="col-lg-3 d-flex">
+        <%= f.radio_button :transportation, :car, class: "ml-3" %>
+        <%= f.label :transportation_car, Property.transportations_i18n[:car], class: "d-flex align-items-end ml-2", style: "width: 40px;" %>
+        <%= f.text_field :car_time, class: "form-control ml-4", style: "width: 60px;" %>
+        <%= f.label :car_time, "分", class: "d-flex align-items-end ml-1" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-3 d-flex align-items-end px-0">
+        <%= f.label :building_coverage_ratio, "建ぺい率/" %>
+        <%= f.label :floor_area_ratio, "容積率" %></div>
+      <div class="col-lg-7 d-flex">
+        <%= f.text_field :building_coverage_ratio, class: "form-control", style: "width: 60px;" %>
+        <%= f.label :building_coverage_ratio, "%", class: "d-flex align-items-end ml-1" %>
+        <div class="d-flex align-items-center mx-3">/</div>
+        <%= f.text_field :floor_area_ratio, class: "form-control", style: "width: 60px;" %>
+        <%= f.label :floor_area_ratio, "%", class: "d-flex align-items-end ml-1" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-3 d-flex align-items-center px-0"><%= f.label :land_use_false, "土地状況" %></div>
+      <div class="col-lg-7 d-flex">
+        <%= f.radio_button :land_use, :false, class: "d-flex align-items-center ml-3" %>
+        <%= f.label :land_use_false, "更地", class: "ml-2", style: "width: 40px;" %>
+        <%= f.radio_button :land_use, :true, class: "d-flex align-items-center ml-3" %>
+        <%= f.label :land_use_true, "古屋あり", class: "ml-2", style: "width: 80px;" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :real_estate_name, "情報提供元" %></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :real_estate_name, "(不動産名)" %></div>
+      <div class="col-lg-3"><%= f.text_field :real_estate_name, class: "form-control" %></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :real_estate_staff, "(担当者名)" %></div>
+      <div class="col-lg-3"><%= f.text_field :real_estate_staff, class: "form-control" %></div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :real_estate_telephone, "(連絡先)" %></div>
+      <div class="col-lg-3"><%= f.text_field :real_estate_telephone, class: "form-control" %></div>
+    </div>
+
+    <div class="form-group row my-4">
+      <div class="col-lg-3 d-flex align-items-center px-0"><%= f.label :introduction, "説明文" %></div>
+      <div class="col-lg-7"><%= f.text_area :introduction, class: "form-control" %></div>
+      <div class="col-lg-1"></div>
+    </div>
+
+    <div class="actions d-flex align-items-center justify-content-center my-5">
+      <%= f.submit '物件情報を更新する', class:"btn btn-success btn-lg px-0 w-50" %>
+    </div>
+
+  <% end %>
+
+</div>

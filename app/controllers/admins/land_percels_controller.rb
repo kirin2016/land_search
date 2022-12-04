@@ -7,21 +7,14 @@ class Admins::LandPercelsController < ApplicationController
   end
 
   def registration
-    @property = Property.new(form_property_params)
-    byebug
-    @property.images = params[:images]
+    @property = Property.find(params[:id])
+    @images = @property.images
     @land_percel = Form::LandPercelCollection.new
-    if @property.invalid?
-      flash.now[:warning] = '必要項目をすべて入力してください。'
-      render template: "admins/properties/new"
-    end
   end
 
   def new_create
-    @property = Property.new(form_property_params)
     @land_percel = Form::LandPercelCollection.new(land_percel_collection_params)
     if @property.save
-
       @land_percel.land_percels.each do |land_percel|
         land_percel.property_id = @property.id
         @area_tsubo = land_percel.area.to_f * 0.3025
@@ -55,15 +48,25 @@ class Admins::LandPercelsController < ApplicationController
       end
     else
       @property = Property.find(@land_percel.property_id)
+      @land_percels = @property.land_percels
       flash.now[:danger] = 'エラーが発生し、土地情報を正しく登録できませんでした。'
       render template: "admins/properties/show"
     end
   end
 
   def edit
+    @land_percel = LandPercel.find(params[:id])
   end
 
   def update
+    @land_percel = LandPercel.find(params[:id])
+    if @land_percel.update(land_percel_params)
+      flash[:success] = '変更を保存しました。'
+      redirect_to admins_land_percel_path(@land_percel.id)
+    else
+      flash.now[:warning] = '必須項目に誤りがあります。必要情報を正しく入力してください。'
+      render :edit
+    end
   end
 
   def destroy
@@ -125,7 +128,7 @@ class Admins::LandPercelsController < ApplicationController
           :difference_elevation,
           :private_road_burden,
           :sale_status,
-          :reference_plan,
+          :reference_plan_id,
           :comment])
   end
 
@@ -145,7 +148,8 @@ class Admins::LandPercelsController < ApplicationController
           :difference_elevation,
           :private_road_burden,
           :sale_status,
-          :reference_plan,
+          :reference_plan_id,
+          :remove_reference_plan_id,
           :comment)
   end
 

@@ -1,17 +1,21 @@
-<h4><%= @property.name %></h4>
+<h4>「<%= @property.name %>」の詳細</h4>
 
-<h5 class="mx-auto my-3" style="width: 80%;"><%= @property.introduction %></h5>
+<h5 class="mx-auto my-3 box" style="width: 80%;"><%= @property.introduction %></h5>
 
 <div class="background">
   <% if @property.images.present? %>
     <div class="slider">
       <% @property.images.each do |image| %>
-        <%= image_tag image.image.to_s, class: "mx-1 my-1" %>
-        <%= image.explanation %>
+        <div class="slick-inner">
+          <%= image_tag image.image.to_s, class: "mx-1 my-1" %>
+          <div class="slider-text text-center"><%= image.explanation %></div>
+        </div>
       <% end %>
     </div>
   <% else %>
-    <%= image_tag 'no_image.png', size: '250x250' %>
+    <div class="d-flex justify-content-center p-3">
+      <%= image_tag 'no_image.png', size: '250x250' %>
+    </div>
   <% end %>
 </div>
 
@@ -27,7 +31,7 @@
       <% if @property.transportation == 'walking' %>
         徒歩<%= @property.walking_time %>分
       <% elsif @property.transportation == 'bus' %>
-        バス<%= @property.bus_time %>分　停歩<%= @property.walking_time %>分
+        バス<%= @property.bus_time %>分　停歩<%= @property.bus_stop_walking_time %>分
       <% else %>
         車<%= @property.car_time %>分
       <% end %>
@@ -140,9 +144,9 @@
             <% else %>有
             <% end %>
           </td>
-          <% if land_percel.sale_status = 'on_sale' %>
+          <% if land_percel.sale_status == 'on_sale' %>
             <td class="px-0 align-middle text-success font-weight-bold"><%= land_percel.sale_status_i18n %></td>
-		      <% elsif land_percel.sale_status = 'sales_pending' %>
+		      <% elsif land_percel.sale_status == 'sales_pending' %>
 		        <td class="px-0 align-middle text-warning font-weight-bold"><%= land_percel.sale_status_i18n %></td>
 		      <% else %>
 		        <td class="px-0 align-middle text-muted font-weight-bold"><%= land_percel.sale_status_i18n %></td>

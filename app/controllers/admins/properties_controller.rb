@@ -26,7 +26,7 @@ class Admins::PropertiesController < ApplicationController
           @property.images.create!(image: i, property_id: @property.id)
         end
         flash[:success] = "物件情報を新規登録しました。"
-        redirect_to admins_property_path(@property.id)
+        redirect_to admins_land_percels_registration_path(@property.id)
       end
     else
       flash.now[:danger] = 'エラーが発生し、登録できませんでした。'
@@ -36,6 +36,8 @@ class Admins::PropertiesController < ApplicationController
 
   def edit
     @property = Property.find(params[:id])
+    @image = Image.new
+    @images = @property.images
   end
 
   def update
@@ -65,6 +67,7 @@ class Admins::PropertiesController < ApplicationController
 
   def property_params
     params.require(:property).permit(
+      :id,
       :name,
       :postal_code,
       :prefecture_code,
@@ -86,34 +89,7 @@ class Admins::PropertiesController < ApplicationController
       :real_estate_staff,
       :real_estate_telephone,
       :introduction,
-      images_attributes: [:image, :image_cache, :explanation])
+      images_attributes: [:id, :image, :image_cache, :explanation])
   end
-
-  def form_property_params
-    params.require(:form_land_percel_collection).require(:property).permit(
-      :name,
-      :postal_code,
-      :prefecture_code,
-      :address_city,
-      :address_town,
-      :address_street,
-      :nearest_railroad,
-      :nearest_station,
-      :transportation,
-      :nearest_bus_stop,
-      :walking_time,
-      :bus_time,
-      :bus_stop_walking_time,
-      :car_time,
-      :building_coverage_ratio,
-      :floor_area_ratio,
-      :land_use,
-      :real_estate_name,
-      :real_estate_staff,
-      :real_estate_telephone,
-      :introduction,
-      images_attributes: [:image, :image_cache, :explanation])
-  end
-
 
 end

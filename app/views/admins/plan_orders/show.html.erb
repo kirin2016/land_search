@@ -1,2 +1,521 @@
-<h1>Admin::PlanOrder#show</h1>
-<p>Find me in app/views/admin/plan_order/show.html.erb</p>
+<h4>プラン作成依頼詳細</h4>
+
+
+<h5 class="my-4">土地情報</h5>
+
+<div class="form-group row">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-2 d-flex align-items-center px-0">所在地</div>
+  <div class="col-lg-1"></div>
+  <div class="col-lg-8 pl-4">
+    <%= @land_percel.property.full_address_admins %>
+    　<%= @property.nearest_railroad %>「<%= @property.nearest_station %>」
+    <% if @property.transportation == 'walking' %>
+      徒歩<%= @property.walking_time %>分
+    <% elsif @property.transportation == 'bus' %>
+      バス<%= @property.bus_time %>分　停歩<%= @property.walking_time %>分
+    <% else %>
+      車<%= @property.car_time %>分
+    <% end %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-2 d-flex align-items-center px-0">物件名・区画名</div>
+  <div class="col-lg-1"></div>
+  <% if @land_percel.name.present? %>
+    <div class="col-lg-8 pl-4"><%= link_to @property.name, property_path(@land_percel.property_id)  %>　第<%= @land_percel.name %>区画</div>
+  <% else %>
+    <div class="col-lg-8 pl-4"><%= link_to @property.name, property_path(@land_percel.property_id)  %></div>
+  <% end %>
+</div>
+
+<div class="form-group row">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-2 d-flex align-items-center px-0">土地詳細</div>
+  <div class="col-lg-1 d-flex align-items-center justify-content-end px-0">面積</div>
+  <div class="col-lg-2 pl-4"><%= @land_percel.area %>㎡</div>
+  <div class="col-lg-1 d-flex align-items-center justify-content-end px-0">形状</div>
+  <div class="col-lg-2 pl-4">間口<%= @land_percel.frontage %>m<%= @land_percel.shape_i18n %></div>
+  <div class="col-lg-1 d-flex align-items-center justify-content-end px-0">現況</div>
+  <div class="col-lg-2 pl-4">
+    <% if @property.land_use == false %>更地
+    <% else %>古屋あり
+    <% end %>
+    <% if @land_percel.difference_elevation == false %>高低差なし
+    <% else %>高低差あり
+    <% end %>
+  </div>
+</div>
+
+
+<div class="form-group row">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-2 d-flex align-items-center px-0">価格</div>
+  <div class="col-lg-1"></div>
+  <div class="col-lg-8 pl-4"><%= @land_percel.price %>万円（坪単価：<%= @land_percel.price_tsubo %>万円）</div>
+</div>
+
+<div class="form-group row">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-2 d-flex align-items-center px-0">建ぺい率/容積率</div>
+  <div class="col-lg-1"></div>
+  <div class="col-lg-8 pl-4"><%= @property.building_coverage_ratio %>%/<%= @property.floor_area_ratio %>%</div>
+</div>
+
+<div class="form-group row">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-2 d-flex align-items-center px-0">道路状況</div>
+  <div class="col-lg-1"></div>
+  <div class="col-lg-8 pl-4">
+    <%= @land_percel.connecting_road_situation_i18n %>
+    　幅<%= @land_percel.main_road_width %>m<%= @land_percel.main_road_direction_i18n %>道路
+    <% if @land_percel.difference_elevation == false %>　私道負担なし
+    <% else %>　私道負担あり
+    <% end %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-2 d-flex align-items-center px-0">販売状況</div>
+  <div class="col-lg-1"></div>
+  <% if @land_percel.sale_status = 'on_sale' %>
+    <div class="col-lg-2 pl-4 text-success font-weight-bold"><%= @land_percel.sale_status_i18n %></div>
+	<% elsif @land_percel.sale_status = 'sales_pending' %>
+	  <div class="col-lg-2 pl-4 text-warning font-weight-bold"><%= @land_percel.sale_status_i18n %></div>
+	<% else %>
+	  <div class="col-lg-2 pl-4 text-muted font-weight-bold"><%= @land_percel.sale_status_i18n %></div>
+	<% end %>
+</div>
+
+
+
+<%= form_with model: @plan_order, url: admins_plan_order_path(@plan_order.id), local: true do |f| %>
+
+  <h5 class="mt-5 mb-4">依頼者情報</h5>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0">依頼者名</div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0">(性)</div>
+    <div class="col-lg-2 pl-4"><%= @customer.last_name %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0">(名)</div>
+    <div class="col-lg-2 pl-4"><%= @customer.first_name %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0">連絡先</div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0">電話</div>
+    <div class="col-lg-2 pl-4"><%= @customer.telephone_number %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0">メール</div>
+    <div class="col-lg-2 pl-4"><%= @customer.email %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0">営業担当</div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0">担当者名</div>
+    <div class="col-lg-2 pl-4"><%= @customer.sale_staff %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0">連絡先</div>
+    <div class="col-lg-2 pl-4"><%= @customer.sale_staff_telephone %></div>
+  </div>
+
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :order_status_confirming, "依頼ステータス" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex text-info font-weight-bold">
+      <%= f.radio_button :order_status, :confirming, class: "mb-2" %>
+      <%= f.label :order_status_confirming, PlanOrder.order_statuses_i18n[:confirming], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex text-secondary font-weight-bold">
+      <%= f.radio_button :order_status, :planning, class: "mb-2" %>
+      <%= f.label :order_status_planning, PlanOrder.order_statuses_i18n[:planning], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex text-success font-weight-bold">
+      <%= f.radio_button :order_status, :completion, class: "ml-3 mb-2" %>
+      <%= f.label :order_status_completion, PlanOrder.order_statuses_i18n[:completion], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex text-danger font-weight-bold">
+      <%= f.radio_button :order_status, :stop_planning, class: "mb-2" %>
+      <%= f.label :order_status_stop_planning, PlanOrder.order_statuses_i18n[:stop_planning], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :contact_datetime_1, "連絡希望日時", class: "mb-0" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :contact_datetime_1, "候補１", class: "mb-0" %></div>
+    <div class="col-lg-2"><%= f.datetime_field :contact_datetime_1, class: "form-control pl-1 pr-0" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :contact_datetime_2, "候補２", class: "mb-0" %></div>
+    <div class="col-lg-2"><%= f.datetime_field :contact_datetime_2, class: "form-control pl-1 pr-0" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :contact_datetime_3, "候補３", class: "mb-0" %></div>
+    <div class="col-lg-2"><%= f.datetime_field :contact_datetime_3, class: "form-control pl-1 pr-0" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :remarks, "備考", class: "mb-0" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"></div>
+    <div class="col-lg-8"><%= f.text_area :remarks, class: "form-control", rows: "5" %></div>
+  </div>
+
+
+  <h5 class="mt-5 mb-4">プラン要望</h5>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :tenant_number_order, "新築入居者" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :tenant_number_order, "人数(人)" %></div>
+    <div class="col-lg-2"><%= f.text_field :tenant_number_order, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :tenant_member_order, "家族構成" %></div>
+    <div class="col-lg-5"><%= f.text_field :tenant_member_order, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :house_type_order_single_family_home, "住居種類" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :house_type_order, :single_family_home, class: "ml-3 mb-2" %>
+      <%= f.label :house_type_order_single_family_home, PlanOrder.house_type_orders_i18n[:single_family_home], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :house_type_order, :two_family_home, class: "mb-2" %>
+      <%= f.label :house_type_order_two_family_home, PlanOrder.house_type_orders_i18n[:two_family_home], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :house_type_order, :multi_family_home, class: "ml-3 mb-2" %>
+      <%= f.label :house_type_order_multi_family_home, PlanOrder.house_type_orders_i18n[:multi_family_home], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :total_budget_order, "土地+建物総予算（万円）" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2"><%= f.text_field :total_budget_order, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :number_floor_order, "建物規模" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :number_floor_order, "階数" %></div>
+    <div class="col-lg-2"><%= f.text_field :number_floor_order, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :floor_area_order, "面積(㎡)" %></div>
+    <div class="col-lg-2"><%= f.text_field :floor_area_order, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :number_room_order, "部屋数" %></div>
+    <div class="col-lg-2"><%= f.text_field :number_room_order, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :ldk_floor_number_order, "LDK" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :ldk_floor_number_order, "場所(階)" %></div>
+    <div class="col-lg-2"><%= f.text_field :ldk_floor_number_order, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :ldk_area_order, "広さ(帖)" %></div>
+    <div class="col-lg-2"><%= f.text_field :ldk_area_order, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :kitchen_type_order_wall, "キッチンタイプ" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :kitchen_type_order, :wall, class: "ml-3mb-2" %>
+      <%= f.label :kitchen_type_order_wall, PlanOrder.kitchen_type_orders_i18n[:wall], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :kitchen_type_order, :peninsula, class: "mb-2" %>
+      <%= f.label :kitchen_type_order_peninsula, PlanOrder.kitchen_type_orders_i18n[:peninsula], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :kitchen_type_order, :island, class: "ml-3 mb-2" %>
+      <%= f.label :kitchen_type_order_island, PlanOrder.kitchen_type_orders_i18n[:island], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :kitchen_type_order, :others, class: "mb-2" %>
+      <%= f.label :kitchen_type_order_others, PlanOrder.kitchen_type_orders_i18n[:others], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :mbr_area_order, "部屋の広さ(帖)" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :mbr_area_order, "MBr(主寝室)" %></div>
+    <div class="col-lg-2"><%= f.text_field :mbr_area_order, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :br_area_order, "Br(洋室)" %></div>
+    <div class="col-lg-2"><%= f.text_field :br_area_order, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :bathroom_area_order_one_tsubo, "浴室広さ" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :bathroom_area_order, :one_tsubo, class: "ml-3 mb-2" %>
+      <%= f.label :bathroom_area_order_one_tsubo, PlanOrder.bathroom_area_orders_i18n[:one_tsubo], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :bathroom_area_order, :one_quarter_tsubo, class: "mb-2" %>
+      <%= f.label :bathroom_area_order_one_quarter_tsubo, PlanOrder.bathroom_area_orders_i18n[:one_quarter_tsubo], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :bathroom_area_order, :others, class: "ml-3 mb-2" %>
+      <%= f.label :bathroom_area_order_others, PlanOrder.bathroom_area_orders_i18n[:others], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :japanese_room_order_want, "和室" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :japanese_room_order, :want, class: "ml-3 mb-2" %>
+      <%= f.label :japanese_room_order_want, PlanOrder.japanese_room_orders_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :japanese_room_order, :if_have_room, class: "mb-2" %>
+      <%= f.label :japanese_room_order_if_have_room, PlanOrder.japanese_room_orders_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :japanese_room_order, :needless, class: "ml-3 mb-2" %>
+      <%= f.label :japanese_room_order_needless, PlanOrder.japanese_room_orders_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :storage_order_want, "納戸" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :storage_order, :want, class: "ml-3 mb-2" %>
+      <%= f.label :storage_order_want, PlanOrder.storage_orders_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :storage_order, :if_have_room, class: "mb-2" %>
+      <%= f.label :storage_order_if_have_room, PlanOrder.storage_orders_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :storage_order, :needless, class: "ml-3 mb-2" %>
+      <%= f.label :storage_order_needless, PlanOrder.storage_orders_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :den_order_want, "書斎" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :den_order, :want, class: "ml-3 mb-2" %>
+      <%= f.label :den_order_want, PlanOrder.den_orders_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :den_order, :if_have_room, class: "mb-2" %>
+      <%= f.label :den_order_if_have_room, PlanOrder.den_orders_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :den_order, :needless, class: "ml-3 mb-2" %>
+      <%= f.label :den_order_needless, PlanOrder.den_orders_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :den_type_order_open_type, "書斎タイプ" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :den_type_order, :open_type, class: "ml-3 mb-2" %>
+      <%= f.label :den_type_order_open_type, PlanOrder.den_type_orders_i18n[:open_type], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :den_type_order, :closed_type, class: "mb-2" %>
+      <%= f.label :den_type_order_closed_type, PlanOrder.den_type_orders_i18n[:closed_type], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :den_type_order, :others, class: "ml-3 mb-2" %>
+      <%= f.label :den_type_order_others, PlanOrder.den_type_orders_i18n[:others], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :wic_order_want, "WIC(ウォークイン・クローゼット)" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :wic_order, :want, class: "ml-3 mb-2" %>
+      <%= f.label :wic_order_want, PlanOrder.wic_orders_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :wic_order, :if_have_room, class: "mb-2" %>
+      <%= f.label :wic_order_if_have_room, PlanOrder.wic_orders_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :wic_order, :needless, class: "ml-3 mb-2" %>
+      <%= f.label :wic_order_needless, PlanOrder.wic_orders_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :family_closet_order_want, "FC(ファミリークローク)" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :family_closet_order, :want, class: "ml-3 mb-2" %>
+      <%= f.label :family_closet_order_want, PlanOrder.family_closet_orders_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :family_closet_order, :if_have_room, class: "mb-2" %>
+      <%= f.label :family_closet_order_if_have_room, PlanOrder.family_closet_orders_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :family_closet_order, :needless, class: "ml-3 mb-2" %>
+      <%= f.label :family_closet_order_needless, PlanOrder.family_closet_orders_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :sic_order_want, "SIC(シューズイン・クローゼット)" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :sic_order, :want, class: "ml-3 mb-2" %>
+      <%= f.label :sic_order_want, PlanOrder.sic_orders_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :sic_order, :if_have_room, class: "mb-2" %>
+      <%= f.label :sic_order_if_have_room, PlanOrder.sic_orders_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :sic_order, :needless, class: "ml-3 mb-2" %>
+      <%= f.label :sic_order_needless, PlanOrder.sic_orders_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :pantry_order_want, "パントリー" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :pantry_order, :want, class: "ml-3 mb-2" %>
+      <%= f.label :pantry_order_want, PlanOrder.pantry_orders_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :pantry_order, :if_have_room, class: "mb-2" %>
+      <%= f.label :pantry_order_if_have_room, PlanOrder.pantry_orders_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :pantry_order, :needless, class: "ml-3 mb-2" %>
+      <%= f.label :pantry_order_needless, PlanOrder.pantry_orders_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :loft_order_want, "ロフト" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :loft_order, :want, class: "ml-3 mb-2" %>
+      <%= f.label :loft_order_want, PlanOrder.loft_orders_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :loft_order, :if_have_room, class: "mb-2" %>
+      <%= f.label :loft_order_if_have_room, PlanOrder.loft_orders_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :loft_order, :needless, class: "ml-3 mb-2" %>
+      <%= f.label :loft_order_needless, PlanOrder.loft_orders_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :void_order_want, "吹き抜け" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :void_order, :want, class: "ml-3 mb-2" %>
+      <%= f.label :void_order_want, PlanOrder.void_orders_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :void_order, :if_have_room, class: "mb-2" %>
+      <%= f.label :void_order_if_have_room, PlanOrder.void_orders_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :void_order, :needless, class: "ml-3 mb-2" %>
+      <%= f.label :void_order_needless, PlanOrder.void_orders_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :laundry_room_order_want, "ランドリールーム" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :laundry_room_order, :want, class: "ml-3 mb-2" %>
+      <%= f.label :laundry_room_order_want, PlanOrder.laundry_room_orders_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :laundry_room_order, :if_have_room, class: "mb-2" %>
+      <%= f.label :laundry_room_order_if_have_room, PlanOrder.laundry_room_orders_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :laundry_room_order, :needless, class: "ml-3 mb-2" %>
+      <%= f.label :laundry_room_order_needless, PlanOrder.laundry_room_orders_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :garden_order_want, "庭" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :garden_order, :want, class: "ml-3 mb-2" %>
+      <%= f.label :garden_order_want, PlanOrder.garden_orders_i18n[:want], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :garden_order, :if_have_room, class: "mb-2" %>
+      <%= f.label :garden_order_if_have_room, PlanOrder.garden_orders_i18n[:if_have_room], class: "d-flex align-items-center ml-2" %>
+    </div>
+    <div class="col-lg-2 d-flex">
+      <%= f.radio_button :garden_order, :needless, class: "ml-3 mb-2" %>
+      <%= f.label :garden_order_needless, PlanOrder.garden_orders_i18n[:needless], class: "d-flex align-items-center ml-2" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :parking_number_order, "車スペース" %></div>
+    <div class="col-lg-1 d-flex align-items-center justify-content-end px-0"><%= f.label :parking_number_order, "駐車台数(台)" %></div>
+    <div class="col-lg-2"><%= f.text_field :parking_number_order, class: "form-control" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :car_model_order, "車種" %></div>
+    <div class="col-lg-5"><%= f.text_field :car_model_order, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :bicycle_parking_number_order, "自転車スペース" %></div>
+    <div class="col-lg-1 text-right d-flex align-items-center justify-content-end px-0"><%= f.label :bicycle_parking_number_order, "駐輪台数(台)" %></div>
+    <div class="col-lg-2"><%= f.text_field :bicycle_parking_number_order, class: "form-control" %></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 d-flex align-items-center px-0"><%= f.label :request_details_order, "その他要望詳細" %></div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-8"><%= f.text_area :request_details_order, class: "form-control", rows: "10" %></div>
+  </div>
+
+
+
+  <div class="actions row d-flex align-items-center my-5">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4"><%= f.submit '変更を保存', class:"btn btn-success btn-lg px-0 w-75" %></div>
+  </div>
+
+<% end %>
+
+

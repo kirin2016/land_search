@@ -1,9 +1,9 @@
 <h4>マイページ</h4>
 
-<div class="row w-auto">
+<div class="row w-auto mt-4">
   <h3 class="col-lg-2">登録情報</h3>
   <div class="col-lg-1"></div>
-  <div class="col-lg-3"><%= link_to "編集する", edit_customer_path(current_customer.id), class:"btn btn-success px-0 w-50" %></div>
+  <div class="col-lg-3"><%= link_to "編集する", edit_customer_path(@customer.id), class:"btn btn-success px-0 w-50" %></div>
 </div>
 
 
@@ -53,7 +53,7 @@
 
 <h5 class="mt-5 mb-3 ml-4">プラン要望一覧（プラン作成依頼前にご入力ください）</h5>
 
-<table class="table table-bordered table-inverse  ml-4 mb-5">
+<table class="table table-bordered table-inverse  ml-4 mb-4">
   <tr>
 	  <th bgcolor="whitesmoke" class="align-middle" style="width: 180px;">入居予定人数</th>
     <td class="align-middle" style="width: 180px;"><%= @customer.tenant_number %>人</td>
@@ -148,45 +148,53 @@
 
 
 
-<h3 class="mt-5">プラン作成依頼履歴</h3>
+<h3 class="d-inline-block mt-5">プラン作成依頼履歴</h3>
 
 <% if @plan_orders.present? %>
 
   <table class="table table-hover table-inverse my-4 ml-4">
     <thead>
       <tr>
-        <th>物件名・区画名</th>
-        <th>住所</th>
-        <th>販売ステータス</th>
-        <th>依頼日時</th>
-        <th>依頼ステータス</th>
-        <th></th>
+        <th class="align-middle text-center">物件名・区画名</th>
+        <th class="align-middle text-center">住所</th>
+        <th class="align-middle text-center">販売ステータス</th>
+        <th class="align-middle text-center">依頼日時</th>
+        <th class="align-middle text-center">依頼ステータス</th>
+        <th style="width: 80px;"></th>
       </tr>
     </thead>
 
     <tbody>
       <% @plan_orders.each do |plan_order| %>
         <tr>
-          <td>
+          <td class="align-middle text-center">
             <%= link_to(land_percel_path(plan_order.land_percel_id)) do %>
               <% if plan_order.land_percel.name.present? %>
-                <%= plan_order.land_percel.property.name %>　第<%= plan_order.land_percel.name %>区画
+                <%= plan_order.land_percel.property.name %></br>第<%= plan_order.land_percel.name %>区画
               <% else %>
                 <%= plan_order.land_percel.property.name %>
               <% end %>
             <% end %>
           </td>
-          <td><%= plan_order.land_percel.property.full_address_publics %></td>
+          <td class="align-middle text-center"><%= plan_order.land_percel.property.full_address_publics %></td>
           <% if plan_order.land_percel.sale_status = 'on_sale' %>
-            <td class="px-0 align-middle text-success font-weight-bold"><%= plan_order.land_percel.sale_status_i18n %></td>
+            <td class="px-0 align-middle text-center text-success font-weight-bold"><%= plan_order.land_percel.sale_status_i18n %></td>
           <% elsif plan_order.land_percel.sale_status = 'sales_pending' %>
-            <td class="px-0 align-middle text-warning font-weight-bold"><%= plan_order.land_percel.sale_status_i18n %></td>
+            <td class="px-0 align-middle text-center text-warning font-weight-bold"><%= plan_order.land_percel.sale_status_i18n %></td>
           <% else %>
-            <td class="px-0 align-middle text-muted font-weight-bold"><%= plan_order.land_percel.sale_status_i18n %></td>
+            <td class="px-0 align-middle text-center text-muted font-weight-bold"><%= plan_order.land_percel.sale_status_i18n %></td>
           <% end %>
-          <td><%= plan_order.created_at.strftime('%Y/%m/%d') %></td>
-          <td><%= plan_order.order_status_i18n %></td>
-          <td><%= link_to '依頼詳細', plan_order_path(plan_order.id) %></td>
+          <td class="align-middle text-center"><%= plan_order.created_at.strftime('%Y/%m/%d') %></td>
+          <% if plan_order.order_status == 'confirming' %>
+            <td class="align-middle text-center text-info font-weight-bold"><%= plan_order.order_status_i18n %></td>
+          <% elsif plan_order.order_status == 'planning' %>
+            <td class="align-middle text-center text-secondary font-weight-bold"><%= plan_order.order_status_i18n %></td>
+          <% elsif plan_order.order_status == 'completion' %>
+            <td class="align-middle text-center text-success font-weight-bold"><%= plan_order.order_status_i18n %></td>
+          <% else %>
+            <td class="align-middle text-center text-danger font-weight-bold"><%= plan_order.order_status_i18n %></td>
+          <% end %>
+          <td class="align-middle text-center"><%= link_to '詳細', plan_order_path(plan_order.id), class:"btn btn-sm btn-primary px-0 w-100" %></td>
         </tr>
       <% end %>
     </tbody>

@@ -1,7 +1,7 @@
 class LandPercel < ApplicationRecord
 
   validates :property_id, presence: true
-  validates :name, presence: true, uniqueness: { scope: :property_id }
+  validates :name, uniqueness: { scope: :property_id }
   validates :price, presence: true, numericality: { greater_than: 0 }
   validates :area, presence: true, numericality: { greater_than: 0 }
   validates :price_tsubo, presence: true, allow_blank: true

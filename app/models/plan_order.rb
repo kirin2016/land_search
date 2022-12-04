@@ -11,9 +11,9 @@ class PlanOrder < ApplicationRecord
   belongs_to :land_percel
 
 
-  enum order_status: { confirming: 0, planning: 1, completion: 2 }
+  enum order_status: { confirming: 0, planning: 1, completion: 2, stop_planning: 3 }
   enum house_type_order: { single_family_home: 0, two_family_home: 1, multi_family_home: 2 }
-  enum kitchen_type_order: { wall: 0, peninsula: 1, island: 2 }
+  enum kitchen_type_order: { wall: 0, peninsula: 1, island: 2, others: 3 }, _prefix: true
   enum bathroom_area_order: { one_tsubo: 0, one_quarter_tsubo: 1, others: 2 }, _prefix: true
   enum japanese_room_order: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true
   enum storage_order: { want: 0, if_have_room: 1, needless: 2 }, _prefix: true

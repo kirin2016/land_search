@@ -1,7 +1,7 @@
 <h4>マイページ編集</h4>
 
 
-<%= form_with model: @customer, url: customer_path(current_customer.id), local: true do |f| %>
+<%= form_with model: @customer, url: customer_path(@customer.id), local: true do |f| %>
 
   <h5 class="my-4">基本情報編集</h5>
 
@@ -407,7 +407,7 @@
   <div class="actions row d-flex align-items-center my-5">
     <div class="col-lg-4"></div>
     <div class="col-lg-4"><%= f.submit '編集内容を保存', class:"btn btn-success btn-lg px-0 w-75" %></div>
-    <div class="col-lg-4"><%= link_to '退会する', unsubscribe_customers_path(current_customer.id), class:"btn btn-danger btn-lg px-0 w-50" %></div>
+    <div class="col-lg-4"><%= link_to '退会する', unsubscribe_path(current_customer.id), class:"btn btn-danger btn-lg px-0 w-50" %></div>
   </div>
 
 <% end %>
