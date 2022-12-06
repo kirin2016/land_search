@@ -18,7 +18,6 @@ class Admins::LandPercelsController < ApplicationController
     else
       (3 - @property.land_percels.count).times { @property.land_percels.build }
     end
-    byebug
   end
 
   def new_create
@@ -108,7 +107,7 @@ class Admins::LandPercelsController < ApplicationController
       :real_estate_staff,
       :real_estate_telephone,
       :introduction,
-      images_attributes: [:id, :image, :image_cache, :explanation])
+      images_attributes: [:id, :image_cache, :explanation, image: []])
   end
 
   def land_percel_collection_params

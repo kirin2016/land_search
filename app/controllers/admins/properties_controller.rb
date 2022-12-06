@@ -2,7 +2,8 @@ class Admins::PropertiesController < ApplicationController
   before_action :authenticate_admin!
 
   def index
-    @properties = Property.all
+    @search_params = property_search_params
+    @properties = Property.search(@search_params).includes(:land_percels)
   end
 
   def search
@@ -90,7 +91,24 @@ class Admins::PropertiesController < ApplicationController
       :real_estate_staff,
       :real_estate_telephone,
       :introduction,
-      images_attributes: [:id, :image, :image_cache, :explanation])
+      images_attributes: [:id, :image_cache, :explanation, image: []])
+  end
+
+  def property_search_params
+    params.fetch(:search, {}).permit(
+      :prefecture_code,
+      :address_city,
+      :address_town,
+      :nearest_railroad,
+      :nearest_station,
+      :transportation,
+      :walking_time_to,
+      :bus_time_to,
+      :bus_stop_walking_time_to,
+      :car_time_to,
+      :land_use,
+      :area_from,
+      :area_to)
   end
 
 end

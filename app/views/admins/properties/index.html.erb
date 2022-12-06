@@ -1,9 +1,76 @@
 <div class="d-flex justify-content-between align-items-center">
-
   <h4>物件一覧</h4>
   <%= link_to '＋', new_admins_property_path, class:"btn btn-lg rounded-circle p-0" %>
-
 </div>
+
+
+<%= form_with(scope: :search, url: admins_properties_path, method: :get, local: true) do |f| %>
+  <div class="box-search">
+    <h5 class="my-3 ml-3">条件検索フォーム</h5>
+
+    <div class="form-group row">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-1 d-flex align-items-end px-0"><%= f.label :prefecture_code, "住所" %></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :prefecture_code, "(都道府県)" %></div>
+      <div class="col-lg-2 d-flex align-items-end justify-content-end"><%= f.collection_select :prefecture_code, JpPrefecture::Prefecture.all, :code, :name, {include_blank: ('未選択')}, {class: "form-control"} %></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :address_city, "(市区町村)" %></div>
+      <div class="col-lg-2 d-flex align-items-end justify-content-end"><%= f.text_field :address_city, class: "form-control" %></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :address_town, "(町域)" %></div>
+      <div class="col-lg-2 d-flex align-items-end justify-content-end"><%= f.text_field :address_town, class: "form-control" %></div>
+      <div class="col-lg-1"></div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-1 d-flex align-items-end px-0"><%= f.label :nearest_railroad, "最寄り駅" %></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :nearest_railroad, "(沿線名)" %></div>
+      <div class="col-lg-2 d-flex align-items-end justify-content-end"><%= f.text_field :nearest_railroad, class: "form-control" %></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end px-0"><%= f.label :nearest_station, "(駅名)" %></div>
+      <div class="col-lg-2 d-flex align-items-end justify-content-end"><%= f.text_field :nearest_station, class: "form-control" %></div>
+      <div class="col-lg-4"></div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-2 d-flex justify-content-end px-0">
+        <%= f.radio_button :transportation, :walking, class: "ml-3" %>
+        <%= f.label :transportation_walking, Property.transportations_i18n[:walking], class: "d-flex align-items-end ml-2", style: "width: 40px;" %>
+        <%= f.text_field :walking_time_to, class: "form-control px-1", style: "width: 30px;" %>
+        <%= f.label :walking_time_to, "分以内", class: "d-flex align-items-end ml-1" %>
+      </div>
+      <div class="col-lg-4 d-flex justify-content-end px-0">
+        <%= f.radio_button :transportation, :bus, class: "ml-3" %>
+        <%= f.label :transportation_walking, Property.transportations_i18n[:bus], class: "d-flex align-items-end ml-2", style: "width: 40px;" %>
+        <%= f.text_field :bus_time_to, class: "form-control px-1", style: "width: 30px;" %>
+        <%= f.label :bus_time_to, "分以内", class: "d-flex align-items-end ml-1" %>
+        <%= f.label :bus_stop_walking_time_to, "停歩", class: "d-flex align-items-end ml-4", style: "width: 40px;" %>
+        <%= f.text_field :bus_stop_walking_time_to, class: "form-control px-1", style: "width: 30px;" %>
+        <%= f.label :bus_stop_walking_time_to, "分以内", class: "d-flex align-items-end ml-1" %>
+      </div>
+      <div class="col-lg-2 d-flex justify-content-end px-0">
+        <%= f.radio_button :transportation, :car, class: "ml-3" %>
+        <%= f.label :transportation_walking, Property.transportations_i18n[:car], class: "d-flex align-items-end justify-content-center", style: "width: 40px;" %>
+        <%= f.text_field :car_time_to, class: "form-control px-1", style: "width: 30px;" %>
+        <%= f.label :car_time_to, "分以内", class: "d-flex align-items-end ml-1" %>
+      </div>
+      <div class="col-lg-2"></div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-1 d-flex align-items-end px-0"><%= f.label :area_from, "土地面積" %></div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-1 d-flex align-items-end justify-content-end"><%= f.text_field :area_from, class: "form-control" %></div>
+      <div class="col-lg-4"></div>
+    </div>
+
+    <div class="d-flex justify-content-center actions mt-4 mb-3">
+      <%= f.submit '検索する', class:"btn btn-info px-0",  style:"width: 10%;"%>
+    </div>
+
+  </div>
+<% end %>
+
 
   <table class="table table-hover table-inverse my-4">
     <thead>
