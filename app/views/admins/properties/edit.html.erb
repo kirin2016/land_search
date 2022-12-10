@@ -26,7 +26,7 @@
         <div class="col-lg-9 d-flex flex-wrap">
           <%= f.fields_for :images do |i| %>
             <div class="d-flex flex-column">
-              <%= image_tag i.object.image.to_s, size: '210x210', class: "mx-1 my-1" if i.object.image? %>
+              <%= image_tag i.object.image.first.to_s, size: '210x210', class: "mx-1 my-1" if i.object.image? %>
               <%= i.text_field :explanation, class: "form-control mx-1 my-1", style: "width: 210px;" %>
               <%= link_to "削除する", admins_image_path(i.object.id), method: :delete, class:"btn btn-danger mx-auto w-75" %>
               <%= i.hidden_field :image, name: "images[image][]" %>

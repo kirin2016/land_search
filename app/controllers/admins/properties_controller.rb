@@ -106,7 +106,6 @@ class Admins::PropertiesController < ApplicationController
       :bus_time_to,
       :bus_stop_walking_time_to,
       :car_time_to,
-      :land_use,
       :area_from,
       :area_to)
   end

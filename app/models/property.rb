@@ -19,6 +19,7 @@ class Property < ApplicationRecord
   # validates :images, presence: true
 
   has_many :land_percels, dependent: :destroy
+  accepts_nested_attributes_for :land_percels
   has_many :images, dependent: :destroy
   accepts_nested_attributes_for :images, allow_destroy: true
 
@@ -47,7 +48,6 @@ class Property < ApplicationRecord
       .bus_time_to(search_params[:bus_time_to])
       .bus_stop_walking_time_to(search_params[:bus_stop_walking_time_to])
       .car_time_to(search_params[:car_time_to])
-      .land_use_is(search_params[:land_use])
       .area_from(search_params[:area_from])
       .area_to(search_params[:area_to])
   end
@@ -61,8 +61,5 @@ class Property < ApplicationRecord
   scope :bus_time_to, -> (to) { where('bus_time <= ?', to) if to.present? }
   scope :bus_stop_walking_time_to, -> (to) { where('bus_stop_walking_time <= ?', to) if to.present? }
   scope :car_time_to, -> (to) { where('car_time <= ?', to) if to.present? }
-  scope :land_use_is, -> (land_use) { where(land_use: land_use) if land_use.present? }
-  scope :area_from, -> (from) { where('? <= area', from) if from.present? }
-  scope :area_to, -> (to) { where('area <= ?', to) if to.present? }
 
 end

@@ -8,9 +8,6 @@ class Admins::LandPercelsController < ApplicationController
   end
 
   def registration
-    #@property = Property.find(params[:id])
-    #@images = @property.images
-    #@land_percel = Form::LandPercelCollection.new
     @property = Property.new(property_params)
     if @property.invalid?
       flash.now[:warning] = '必要項目をすべて入力してください。'
@@ -23,15 +20,11 @@ class Admins::LandPercelsController < ApplicationController
   def new_create
     @land_percel = Form::LandPercelCollection.new(land_percel_collection_params)
     @property = Property.new(property_params)
-    property_params[:images_attributes].each do |k, v|
-      @property.images.build(image: v[:image_cache], explanation: v[:explanation])
-    end
     if @property.save
       if @land_percel.save(@property)
-      flash[:notice] = '物件情報、土地情報を新規登録しました。'
-      redirect_to admins_properties_path
+        flash[:notice] = '物件情報、土地情報を新規登録しました。'
+        redirect_to admins_properties_path
       else
-        @property = Property.new(form_property_params)
         flash.now[:danger] = 'エラーが発生し、土地情報を正しく登録できませんでした。'
         render :registration
       end

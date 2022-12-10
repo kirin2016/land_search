@@ -4,18 +4,23 @@
   <%= form_with model: @property, url: new_create_admins_land_percels_path, method: :post, local: true do |f| %>
 
   <p class="font-weight-bold">物件写真の説明を入力（撮影箇所・方角など）</p>
-
+  <div class="d-flex flex-wrap">
     <%= f.fields_for :images do |i| %>
-      <% if i.object.image.present? %>
-        <div class="d-flex flex-wrap">
-          <%= image_tag i.object.image.to_s, size: '210x210', class: "mx-1 my-1" %>
-          <%= i.text_field :explanation, class: "form-control mx-1 my-1", style: "width: 210px;" %>
-          <%= i.hidden_field :image_cache %>
-        </div>
-      <% else %>
-        <%= image_tag 'no_image.png', size: '250x250' %>
-      <% end %>
+      <%# if i.object.image.present? %>
+        <%# i.object.image.each do |image| %>
+          <div class="d-flex  flex-column">
+            <%#= image_tag image.to_s, size: '210x210', class: "mx-1 my-1" %>
+            <%= image_tag i.object.image.first.to_s, size: '210x210', class: "mx-1 my-1" %>
+            <%= i.text_field :explanation, class: "form-control mx-1 my-1", style: "width: 210px;" %>
+            <%= i.hidden_field :image %>
+            <%= i.hidden_field :image_cache %>
+          </div>
+        <%# end %>
+      <%# else %>
+        <%#= image_tag 'no_image.png', size: '250x250' %>
+      <%# end %>
     <% end %>
+  </div>
 
 
 

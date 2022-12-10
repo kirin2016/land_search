@@ -7,7 +7,7 @@
     <div class="slider">
       <% @property.images.each do |image| %>
         <div class="slick-inner">
-          <%= image_tag image.image.to_s, class: "mx-1 my-1" %>
+          <%= image_tag image.image.first.to_s, class: "mx-1 my-1" %>
           <div class="slider-text text-center"><%= image.explanation %></div>
         </div>
       <% end %>

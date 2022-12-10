@@ -25,5 +25,9 @@ class LandPercel < ApplicationRecord
   enum connecting_road_situation: { one_frontage: 0, corner_lot: 1, two_frontages: 2, three_four_frontages: 3 }
   enum main_road_direction: { north: 0, south: 1, east: 2, west: 3 }
   enum sale_status: { on_sale: 0, sales_pending: 1, contracted: 2 }
+  
+  
+  scope :area_from, -> (from) { where('? <= area', from) if from.present? }
+  scope :area_to, -> (to) { where('area <= ?', to) if to.present? }
 
 end
